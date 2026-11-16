@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 generate_native_pptx.py
-Generate an editable, high-fidelity 16:9 PowerPoint presentation for CampusPulse
+Generate an editable, high-fidelity 16:9 PowerPoint presentation for Campus
 incorporating all 9 slides, design tokens, exact content, embedded figure screenshots,
 and full presenter scripts in the speaker notes pane.
 """
@@ -86,7 +86,7 @@ def create_presentation():
     p0.font.color.rgb = ELECTRIC_SKY
 
     p1 = tf.add_paragraph()
-    p1.text = "CampusPulse"
+    p1.text = "Campus"
     p1.font.size = Pt(64)
     p1.font.bold = True
     p1.font.color.rgb = WHITE
@@ -136,9 +136,9 @@ def create_presentation():
         cp2.font.color.rgb = RGBColor(148, 163, 184)
 
     add_notes(slide1, 
-        "Good morning, members of the evaluation committee. Today we present CampusPulse, an integrated campus facility maintenance and asset intelligence platform developed for the TPDS-III capstone curriculum. Universities operate like small cities, with hundreds of classrooms, laboratories, and residential wings requiring continuous facility management. Yet most campuses still handle equipment failures through manual WhatsApp groups, paper registers, or untracked helpdesks. CampusPulse replaces that fragmentation with a clean incident lifecycle, automated department dispatch, strict SLA compliance tracking, and spatial hotspot analytics.",
+        "Good morning, members of the evaluation committee. Today we present Campus, an integrated campus facility maintenance and asset intelligence platform developed for the TPDS-III capstone curriculum. Universities operate like small cities, with hundreds of classrooms, laboratories, and residential wings requiring continuous facility management. Yet most campuses still handle equipment failures through manual WhatsApp groups, paper registers, or untracked helpdesks. Campus replaces that fragmentation with a clean incident lifecycle, automated department dispatch, strict SLA compliance tracking, and spatial hotspot analytics.",
         "What differentiates this project from a generic helpdesk ticketing tool?",
-        "Generic ticketing systems treat tickets as flat support conversations. CampusPulse is purpose-built for physical infrastructure: it couples tickets with structural campus entities (buildings, floors, rooms, and asset codes), enforces time-to-breach countdown timers based on department SLAs, tracks state transitions in an immutable audit ledger, and computes spatial hotspots directly onto an interactive campus blueprint."
+        "Generic ticketing systems treat tickets as flat support conversations. Campus is purpose-built for physical infrastructure: it couples tickets with structural campus entities (buildings, floors, rooms, and asset codes), enforces time-to-breach countdown timers based on department SLAs, tracks state transitions in an immutable audit ledger, and computes spatial hotspots directly onto an interactive campus blueprint."
     )
 
     # -------------------------------------------------------------
@@ -180,7 +180,7 @@ def create_presentation():
     tbl.columns[1].width = Inches(1.7)
     tbl.columns[2].width = Inches(1.8)
 
-    headers = ["Operational Metric", "Manual Paper/Chat", "CampusPulse"]
+    headers = ["Operational Metric", "Manual Paper/Chat", "Campus"]
     for j, h in enumerate(headers):
         cell = tbl.cell(0, j)
         cell.text = h
@@ -231,7 +231,7 @@ def create_presentation():
     op1.font.color.rgb = DARK_TEXT
 
     add_notes(slide2,
-        "To understand why we built CampusPulse, examine the daily friction inside any college campus. When an air conditioner malfunctions in a seminar hall or water leaks in a science laboratory, students notify whoever is nearby. The message passes through three or four intermediaries before reaching maintenance. Because there is no central tracking system, several students report the identical issue, creating duplicate noise.",
+        "To understand why we built Campus, examine the daily friction inside any college campus. When an air conditioner malfunctions in a seminar hall or water leaks in a science laboratory, students notify whoever is nearby. The message passes through three or four intermediaries before reaching maintenance. Because there is no central tracking system, several students report the identical issue, creating duplicate noise.",
         "How did you determine the 24 to 48 hour baseline for manual triage?",
         "We interviewed departmental lab assistants and facility supervisors on campus. In the current process, paper complaints must be physically transcribed into an administrative register before being assigned to trade contractors during weekly review cycles, directly causing multi-day delays."
     )
@@ -241,7 +241,7 @@ def create_presentation():
     # -------------------------------------------------------------
     slide3 = prs.slides.add_slide(blank_layout)
     add_bg(slide3, LIGHT_BG)
-    add_header(slide3, "03 · System Concept & Value Proposition", "CampusPulse Solution Architecture", "End-to-End Operational Lifecycle and Multi-Stakeholder Workflows")
+    add_header(slide3, "03 · System Concept & Value Proposition", "Campus Solution Architecture", "End-to-End Operational Lifecycle and Multi-Stakeholder Workflows")
 
     # Workflow image
     img_path = "presentation/assets/workflow-pipeline.png"
@@ -298,7 +298,7 @@ def create_presentation():
         p.font.color.rgb = DARK_TEXT
 
     add_notes(slide3,
-        "CampusPulse bridges three core campus groups into a single closed loop. First, for students and faculty, we provide an intuitive web interface where an issue can be documented with photographic proof in under 30 seconds. Second, the backend system processes the submission, matches the facility category with the correct trade department such as Electrical, Plumbing, or HVAC, and starts an SLA countdown clock. Third, maintenance staff work from an administrative work queue equipped with bulk status controls, quick search filters, and single-click state transitions.",
+        "Campus bridges three core campus groups into a single closed loop. First, for students and faculty, we provide an intuitive web interface where an issue can be documented with photographic proof in under 30 seconds. Second, the backend system processes the submission, matches the facility category with the correct trade department such as Electrical, Plumbing, or HVAC, and starts an SLA countdown clock. Third, maintenance staff work from an administrative work queue equipped with bulk status controls, quick search filters, and single-click state transitions.",
         "What happens if a student files a ticket under the wrong department?",
         "Facility administrators have re-assignment capabilities in the administrative console. Updating a ticket department recalculates the applicable SLA threshold and automatically records the reassignment in the ticket audit log with a timestamp and administrative user identifier."
     )
@@ -347,7 +347,7 @@ def create_presentation():
         p_d.font.color.rgb = MUTED_TEXT
 
     add_notes(slide4,
-        "Here we see the architectural blueprint of CampusPulse. We chose a decoupled three-tier architecture focused on performance, durability, and operational simplicity. On the client side, we avoided heavy frontend frameworks like React or Angular to ensure instant load times and zero compilation friction on standard campus Wi-Fi networks. Bootstrap 5, modular ES6 JavaScript, and Chart.js provide a modern interface across mobile phones, tablets, and desktops. The application tier runs on Node.js with Express 5, which handles asynchronous exceptions natively without error-prone wrapper functions.",
+        "Here we see the architectural blueprint of Campus. We chose a decoupled three-tier architecture focused on performance, durability, and operational simplicity. On the client side, we avoided heavy frontend frameworks like React or Angular to ensure instant load times and zero compilation friction on standard campus Wi-Fi networks. Bootstrap 5, modular ES6 JavaScript, and Chart.js provide a modern interface across mobile phones, tablets, and desktops. The application tier runs on Node.js with Express 5, which handles asynchronous exceptions natively without error-prone wrapper functions.",
         "Why use SQLite rather than PostgreSQL or MySQL for a university platform?",
         "SQLite with Write-Ahead Logging delivers over 50,000 read operations per second with sub-millisecond query latency because data operations bypass TCP/IP networking loops. For a campus infrastructure management system generating hundreds of work orders per day, SQLite provides zero-configuration reliability, zero background server daemon vulnerabilities, and single-file backup simplicity."
     )
@@ -395,7 +395,7 @@ def create_presentation():
         pd.font.color.rgb = MUTED_TEXT
 
     add_notes(slide5,
-        "Data integrity is the bedrock of CampusPulse. We strictly normalized our data layer to Third Normal Form. Notice how tickets do not store facility room details or department contact information directly. Instead, foreign keys reference dedicated facilities and departments tables. This eliminates update anomalies: if a department changes its SLA benchmark or a room is repurposed, historical ticket records remain structurally sound. Every status modification writes a record into ticket_audit_logs, providing an immutable audit trail showing who transitioned a ticket and when.",
+        "Data integrity is the bedrock of Campus. We strictly normalized our data layer to Third Normal Form. Notice how tickets do not store facility room details or department contact information directly. Instead, foreign keys reference dedicated facilities and departments tables. This eliminates update anomalies: if a department changes its SLA benchmark or a room is repurposed, historical ticket records remain structurally sound. Every status modification writes a record into ticket_audit_logs, providing an immutable audit trail showing who transitioned a ticket and when.",
         "Why create database views instead of computing metrics in Node.js?",
         "Computing aggregations at the database engine level is significantly faster because SQLite executes aggregations natively in compiled C, utilizing index structures and avoiding the overhead of streaming thousands of individual JSON rows across the IPC boundary into Node.js memory."
     )
@@ -450,7 +450,7 @@ def create_presentation():
     p1.font.color.rgb = DARK_TEXT
 
     add_notes(slide6,
-        "This slide displays the core operational interfaces of CampusPulse in live action. In Figure 4, we see the Student and Staff Reporting Portal. Submitting an issue takes under 30 seconds. A student selects their building and room or clicks directly on the interactive 2D campus blueprint. The blueprint dynamically colors rooms based on their operational status: green for normal, red for active critical issues. The reporting form includes a drag-and-drop dropzone for visual proof, which maintenance staff rely upon to bring the correct replacement parts. In Figure 5, we show the Administrative Work Orders Queue used by facility staff.",
+        "This slide displays the core operational interfaces of Campus in live action. In Figure 4, we see the Student and Staff Reporting Portal. Submitting an issue takes under 30 seconds. A student selects their building and room or clicks directly on the interactive 2D campus blueprint. The blueprint dynamically colors rooms based on their operational status: green for normal, red for active critical issues. The reporting form includes a drag-and-drop dropzone for visual proof, which maintenance staff rely upon to bring the correct replacement parts. In Figure 5, we show the Administrative Work Orders Queue used by facility staff.",
         "How does the interactive blueprint receive real-time room status updates?",
         "On page load and following ticket creation, the client queries /api/v1/facilities. The frontend iterates through the SVG room elements matching data-room attributes and applies CSS status classes based on the highest-severity unresolved ticket logged against that location."
     )
@@ -509,7 +509,7 @@ def create_presentation():
     bp0.font.color.rgb = DARK_TEXT
 
     add_notes(slide7,
-        "Operational data without actionable visualization is useless to university leadership. Slide 7 demonstrates the CampusPulse Analytics Dashboard shown in Figure 6. At the top, executive KPI cards immediately answer critical operational questions: what is our global SLA compliance rate, how many unresolved work orders are active right now, and what is our campus-wide Mean Time to Resolution? Below the KPI strip, Chart.js renders two analytical perspectives: a 7-day workload trend line showing ticket creation versus resolution pace, and a category distribution doughnut highlighting where maintenance load concentrates.",
+        "Operational data without actionable visualization is useless to university leadership. Slide 7 demonstrates the Campus Analytics Dashboard shown in Figure 6. At the top, executive KPI cards immediately answer critical operational questions: what is our global SLA compliance rate, how many unresolved work orders are active right now, and what is our campus-wide Mean Time to Resolution? Below the KPI strip, Chart.js renders two analytical perspectives: a 7-day workload trend line showing ticket creation versus resolution pace, and a category distribution doughnut highlighting where maintenance load concentrates.",
         "How does the platform handle time zone discrepancies when calculating SLA deadlines?",
         "All timestamps are strictly generated and stored in ISO 8601 UTC format (YYYY-MM-DDTHH:MM:SS.SSSZ). SQLite date-time functions compute elapsed duration in UTC seconds, and the client browser renders local formatted times according to the user's localized browser locale."
     )
@@ -598,7 +598,7 @@ def create_presentation():
     p1.font.bold = True
     p1.font.color.rgb = WHITE
     p2 = tf.add_paragraph()
-    p2.text = "Scaling CampusPulse into an Autonomous Smart Campus Intelligence Platform"
+    p2.text = "Scaling Campus into an Autonomous Smart Campus Intelligence Platform"
     p2.font.size = Pt(13)
     p2.font.color.rgb = RGBColor(148, 163, 184)
 
@@ -657,7 +657,7 @@ def create_presentation():
     p0.font.bold = True
     p0.font.color.rgb = RGBColor(56, 189, 248)
     p1 = stf.add_paragraph()
-    p1.text = "CampusPulse proves that modern campus facility operations can be transformed through clean software design, transparent SLA tracking, and spatial intelligence."
+    p1.text = "Campus proves that modern campus facility operations can be transformed through clean software design, transparent SLA tracking, and spatial intelligence."
     p1.font.size = Pt(13)
     p1.font.bold = True
     p1.font.color.rgb = WHITE
@@ -667,12 +667,12 @@ def create_presentation():
     p2.font.color.rgb = RGBColor(203, 213, 225)
 
     add_notes(slide9,
-        "In conclusion, CampusPulse demonstrates how thoughtful software engineering and normalized relational design can solve longstanding physical campus inefficiencies. Over this semester, we built a fully containerized, responsive web system featuring 3NF SQLite persistence, automated SLA compliance tracking, interactive spatial mapping, and executive telemetry. Looking forward, our architecture easily accommodates QR code scanning at classroom doors, IoT water and power sensor alerts, and mobile push notifications for maintenance crews.",
+        "In conclusion, Campus demonstrates how thoughtful software engineering and normalized relational design can solve longstanding physical campus inefficiencies. Over this semester, we built a fully containerized, responsive web system featuring 3NF SQLite persistence, automated SLA compliance tracking, interactive spatial mapping, and executive telemetry. Looking forward, our architecture easily accommodates QR code scanning at classroom doors, IoT water and power sensor alerts, and mobile push notifications for maintenance crews.",
         "If you had two more weeks, what single feature would you implement first?",
         "We would implement dynamic QR code generation for facilities. Generating a printable QR code for each room that encodes ?building=Engineering&room=302 would allow any student to scan with their phone camera and immediately arrive at a pre-filled incident submission screen, reducing report friction to under ten seconds."
     )
 
-    out_file = "presentation/CampusPulse_Presentation_Editable.pptx"
+    out_file = "presentation/Campus_Presentation_Editable.pptx"
     prs.save(out_file)
     print(f"✓ Saved native editable PPTX to {out_file}")
 
