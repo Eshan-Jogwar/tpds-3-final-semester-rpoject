@@ -1,0 +1,18 @@
+Course Contents:
+Module 1:
+Dashboard designing: Working with open-source dashboard tools like Tableau, Deep diving with data
+and connection, Creating charts
+Mapping data in Tableau/Power-BI/ open-source tool, Dashboards and deployment.
+Module 2:
+Front end development: Designing responsive user interfaces and design patterns for front end
+development, Designing of screen and detailed design of UI controls and dialogs for web and mobile
+applications, Learning to use the Bootstrap/Flutter or any open source tool to build responsive
+interfaces and UI frameworks.
+Module 3:
+Back-end development: Understanding the basics of Web Servers and HTTP requests, Use of different
+databases such as SQL and its types, and SQL Server, Learning to use JavaScript environments such
+as NodeJS and ExpressJS.
+Module 4:
+Introduction to GIT and deployment: Learning Git to manage your code, Creating an entire website
+and manage the source code using GIT, Learning push/pull code from GIT, Deploy the project using
+the open-source platforms, Dockerization, deployment on different cloud platforms.

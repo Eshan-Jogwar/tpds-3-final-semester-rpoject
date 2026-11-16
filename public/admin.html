@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusPulse — Operations & Triage Board</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/index.html">
+        <i class="bi bi-shield-fill-check text-primary fs-4"></i>
+        <span>Campus<span class="text-primary">Pulse</span></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link" href="/index.html"><i class="bi bi-pencil-square me-1"></i> Student Portal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/admin.html"><i class="bi bi-kanban me-1"></i> Operations Board</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/analytics.html"><i class="bi bi-graph-up-arrow me-1"></i> Executive BI Dashboard</a>
+          </li>
+          <li class="nav-item ms-lg-2">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+              <i class="bi bi-person-badge me-1"></i> Facility Staff
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="py-4 bg-white border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+          <h1 class="h3 fw-bold mb-1">Facility Operations & Triage Queue</h1>
+          <p class="text-muted mb-0">Review lodged grievances, assign technicians, and maintain campus SLA resolution times.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm" id="btnRefreshTickets">
+            <i class="bi bi-arrow-clockwise me-1"></i> Refresh Data
+          </button>
+          <a href="/analytics.html" class="btn btn-primary btn-sm">
+            <i class="bi bi-bar-chart-fill me-1"></i> View BI Metrics
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content py-4">
+    <div class="container">
+
+      <!-- Filter Controls Bar -->
+      <div class="custom-card p-3 mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-3">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="filterSearch" placeholder="Search title, building, UUID...">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select form-select-sm" id="filterStatus">
+              <option value="all">Status: All</option>
+              <option value="submitted">Submitted</option>
+              <option value="assigned">Assigned</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select form-select-sm" id="filterCategory">
+              <option value="all">Category: All</option>
+              <option value="electrical">Electrical</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="it_network">IT & Network</option>
+              <option value="furniture">Furniture</option>
+              <option value="cleanliness">Cleanliness</option>
+              <option value="civil">Civil</option>
+              <option value="safety">Safety</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select form-select-sm" id="filterUrgency">
+              <option value="all">Urgency: All</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tickets Table Card -->
+      <div class="custom-card overflow-hidden">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light text-secondary text-uppercase small">
+              <tr>
+                <th style="min-width: 220px;">Grievance & Category</th>
+                <th>Location</th>
+                <th>Urgency</th>
+                <th>Status</th>
+                <th>Reported By</th>
+                <th>Created</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ticketsTableBody">
+              <tr>
+                <td colspan="7" class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                  Loading campus tickets...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="p-3 border-top bg-light d-flex justify-content-between align-items-center">
+          <small class="text-muted">Showing <span id="ticketsCount" class="fw-bold">0</span> records</small>
+          <span class="badge bg-secondary-subtle text-secondary">Auto-sync with SQLite</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL: Update Status & Triage (Module 2 Requirement) -->
+  <div class="modal fade" id="triageModal" tabindex="-1" aria-labelledby="triageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title h6" id="triageModalLabel"><i class="bi bi-sliders me-1"></i> Update Ticket Status</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="p-2 mb-3 bg-light rounded small">
+            <div class="fw-bold text-dark" id="triageModalTitle">-</div>
+            <div class="text-muted">Location: <span id="triageModalLoc">-</span></div>
+          </div>
+
+          <form id="triageForm">
+            <div class="mb-3">
+              <label for="newStatusSelect" class="form-label fw-semibold small">New Status <span class="text-danger">*</span></label>
+              <select class="form-select form-select-sm" id="newStatusSelect" required>
+                <option value="submitted">Submitted (Pending Triage)</option>
+                <option value="assigned">Assigned (Technician Dispatched)</option>
+                <option value="in_progress">In Progress (Work Underway)</option>
+                <option value="resolved">Resolved (Completed & Verified)</option>
+                <option value="rejected">Rejected (Invalid / Duplicate)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="remarksInput" class="form-label fw-semibold small">Action Remarks / Maintenance Notes <span class="text-danger">*</span></label>
+              <textarea class="form-control form-control-sm" id="remarksInput" rows="3" placeholder="e.g. Replaced burnt fuse and tested outlet..." required></textarea>
+              <small class="text-muted">This remark is permanently appended to the immutable audit log.</small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" id="btnSaveStatus" class="btn btn-primary btn-sm">
+            <i class="bi bi-check2-circle me-1"></i> Update Status
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+    <div id="adminToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2">
+          <i class="bi bi-check-circle-fill fs-5"></i>
+          <span id="adminToastMessage">Action completed successfully!</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center text-muted">
+      <p class="mb-0 small">CampusPulse Operations Console — Backed by Node.js, Express & SQLite 3 on disk.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

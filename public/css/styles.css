@@ -1,0 +1,192 @@
+/* ====================================================================
+   CampusPulse Custom Stylesheet
+   Modern, Accessible, Responsive Design for TPDS-III (CSD 5th Sem)
+   ==================================================================== */
+
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary-color: #0f172a;
+  --accent-color: #3b82f6;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --card-bg: #ffffff;
+  --body-bg: #f8fafc;
+  --border-color: #e2e8f0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--body-bg);
+  color: #334155;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Navbar Brand & Links */
+.navbar {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.nav-link {
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-link.active {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* Card Styling */
+.custom-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.custom-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+}
+
+/* KPI Cards */
+.kpi-card {
+  border-left: 4px solid var(--primary-color);
+  padding: 1.25rem;
+}
+
+.kpi-card.kpi-danger {
+  border-left-color: var(--danger-color);
+}
+
+.kpi-card.kpi-warning {
+  border-left-color: var(--warning-color);
+}
+
+.kpi-card.kpi-success {
+  border-left-color: var(--success-color);
+}
+
+.kpi-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  line-height: 1.2;
+}
+
+/* Urgency Radio Button Styles */
+.urgency-selector .btn-check:checked + .btn-outline-success {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.urgency-selector .btn-check:checked + .btn-outline-warning {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+.urgency-selector .btn-check:checked + .btn-outline-danger {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.urgency-selector .btn-check:checked + .btn-outline-dark {
+  background-color: #1e293b;
+  color: #ffffff;
+}
+
+/* Status Badges */
+.badge-status {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 9999px;
+}
+
+.badge-submitted { background-color: #e0e7ff; color: #3730a3; }
+.badge-assigned { background-color: #fef3c7; color: #92400e; }
+.badge-in_progress { background-color: #dbeafe; color: #1e40af; }
+.badge-resolved { background-color: #d1fae5; color: #065f46; }
+.badge-rejected { background-color: #fee2e2; color: #991b1b; }
+
+/* Interactive Campus Map Styles */
+.campus-map-container {
+  position: relative;
+  background: #f1f5f9;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.building-hotspot {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.building-hotspot:hover {
+  filter: brightness(1.15);
+  transform: scale(1.02);
+}
+
+/* Timeline in Ticket Modal */
+.timeline {
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid #e2e8f0;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -1.95rem;
+  top: 0.2rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 2px solid #ffffff;
+}
+
+/* Footer */
+footer {
+  background: #ffffff;
+  border-top: 1px solid var(--border-color);
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .kpi-value {
+    font-size: 1.5rem;
+  }
+  .table-responsive {
+    font-size: 0.85rem;
+  }
+}

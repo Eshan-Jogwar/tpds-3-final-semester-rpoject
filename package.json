@@ -1,0 +1,21 @@
+{
+  "name": "campuspulse-tpds3",
+  "version": "1.0.0",
+  "description": "CampusPulse: Intelligent Campus Facility, Resource & Grievance Management Platform",
+  "main": "server/src/server.js",
+  "scripts": {
+    "start": "node server/src/server.js",
+    "dev": "node server/src/server.js",
+    "db:init": "node -e \"require('./server/src/db/connection.js')\"",
+    "test": "node tests/api.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^13.2.0",
+    "cors": "^2.8.6",
+    "express": "^5.3.0"
+  }
+}

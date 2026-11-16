@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  campuspulse-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campuspulse-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DATABASE_PATH=/app/data/campuspulse.db
+    volumes:
+      # Persistent on-disk SQLite storage
+      - campuspulse-data:/app/data
+
+volumes:
+  campuspulse-data:
+    driver: local
