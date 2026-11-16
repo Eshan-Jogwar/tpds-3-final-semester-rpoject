@@ -145,6 +145,7 @@ await page.evaluate(() => document.fonts && document.fonts.ready).catch(() => {}
 await page.addStyleTag({ content: `
   *,*::before,*::after{animation-duration:0s!important;animation-delay:0s!important;transition:none!important;}
   .slide .frame .panel,.reveal,[class*="reveal"]{opacity:1!important;transform:none!important;visibility:visible!important;}
+  .deck-controls, .deck-progress-bar, .edit-hotzone, .edit-toggle, .notes-modal-overlay { display: none !important; }
 ` });
 await page.waitForTimeout(400);
 
