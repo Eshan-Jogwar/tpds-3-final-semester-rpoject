@@ -1,137 +1,144 @@
-# CampusPulse: Intelligent Campus Facility, Resource & Grievance Management Platform
+# Campus: Campus Facility Maintenance and Asset Intelligence Platform
 
-[![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-v20%2B-green.svg)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-5.x-blue.svg)](https://expressjs.com/)
-[![SQLite](https://img.shields.io/badge/Database-SQLite%203%20(On--Disk)-lightblue.svg)](https://www.sqlite.org/)
-[![Bootstrap](https://img.shields.io/badge/Front--End-Bootstrap%205-purple.svg)](https://getbootstrap.com/)
+[![SQLite](https://img.shields.io/badge/Database-SQLite%203%20(WAL)-lightblue.svg)](https://www.sqlite.org/)
+[![Bootstrap](https://img.shields.io/badge/Front--End-Bootstrap%205.3-purple.svg)](https://getbootstrap.com/)
 [![Docker](https://img.shields.io/badge/Container-Docker%20%26%20Compose-2496ED.svg)](https://www.docker.com/)
 
-> **Course**: TPDS-III (Tools and Practices in Data Science / Product Development Studio)  
-> **Class**: 5th Semester B.Tech CSD (Computer Science & Design)  
-> **Project Code**: `TPDS-III-CSD-2026`
+> **Course**: Tools and Practices in Data Science III (TPDS-III)  
+> **Class**: 5th Semester B.Tech in Computer Science and Design (CSD)  
+> **Repository**: [https://github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git](https://github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git)
 
 ---
 
-## 📌 Executive Summary
+## Overview
 
-**CampusPulse** is an end-to-end, full-stack, data-driven campus infrastructure management and grievance intelligence platform. It replaces archaic paper logbooks and disconnected messaging groups with an automated, transparent, and auditable system.
+Campus is a 3-tier web platform for facility incident management, department dispatch, SLA compliance tracking, and spatial hotspot detection across university infrastructure. It replaces unmonitored messaging threads and paper logs with an immutable audit ledger and real-time operational telemetry.
 
-The platform provides:
-1. **Student & Faculty Portal**: Frictionless grievance lodging with photo attachment, room selection, urgency classification, and 36-character UUID tracking.
-2. **Operations & Triage Console**: Real-time management board for facility supervisors to assign technicians, transition incident states, and maintain transparent audit histories.
-3. **Executive BI & Analytics Dashboard**: Live metrics for campus administration tracking Mean Time to Resolution (MTTR), SLA compliance percentages, category distributions, and geospatial campus fault density.
+### Core Modules
+
+1. **Student & Faculty Incident Portal**: 30-second ticket filing with photo uploads, category classification, room dropdowns, and interactive 2D SVG blueprint selection.
+2. **Technician Work Orders Queue**: Filterable operational board with single-click bulk status transitions, priority flags, and dynamic SLA breach countdown timers.
+3. **Executive Analytics Dashboard**: Real-time administrative metrics tracking Mean Time to Resolution (MTTR), department SLA compliance percentages, trade expenditure distributions, and campus fault hotspots.
 
 ---
 
-## 🗺️ The Four-Module Mapping Table (Syllabus Alignment)
+## Curriculum Syllabus Mapping (Modules 1–4)
 
-| Syllabus Module | Syllabus Concepts | Applied Project Feature | Code Artifact Path |
+| Syllabus Module | Core Competencies | Applied System Implementation | Source Path |
 |---|---|---|---|
-| **Module 1: Dashboard Designing** | - Open-source dashboard tools<br>- Live data connections<br>- Chart grammars (Donut, Bar, Time-series)<br>- Geospatial campus mapping<br>- Deployment & export | - Executive BI Analytics Portal<br>- SLA Compliance & MTTR gauges<br>- Category distribution & velocity charts<br>- Interactive campus hotspot layout<br>- CSV / Tableau data export | `/public/analytics.html`<br>`/public/js/analytics.js`<br>`/server/src/controllers/analytics.controller.js`<br>`/server/src/db/schema.sql` (views) |
-| **Module 2: Front-End Development** | - Responsive mobile-first UI<br>- UI design patterns<br>- UI controls (select, range, radio, buttons)<br>- Modal dialogs & feedback toasts<br>- Bootstrap 5 responsive framework | - Student grievance lodging portal<br>- Facility status directory<br>- Submission confirmation modal<br>- Live status update toast alerts<br>- Responsive viewports (320px–1920px) | `/public/index.html`<br>`/public/admin.html`<br>`/public/css/styles.css`<br>`/public/js/app.js`<br>`/public/js/admin.js` |
-| **Module 3: Back-End Development** | - Web server & HTTP lifecycle<br>- REST API design (GET, POST, PATCH)<br>- Relational SQL database (SQLite on disk)<br>- 3NF schema, PRAGMAs, views, indexes<br>- Node.js & Express.js framework | - RESTful API microservices<br>- Express middleware (CORS, JSON, errors)<br>- 3NF SQLite database (`campuspulse.db`)<br>- Parameterized queries & transactions<br>- PRAGMA WAL & foreign key enforcement | `/server/src/app.js`<br>`/server/src/server.js`<br>`/server/src/db/connection.js`<br>`/server/src/db/schema.sql`<br>`/server/src/controllers/` |
-| **Module 4: GIT & Deployment** | - Git version control & commit management<br>- Branching strategy (`main`, `feature/*`)<br>- Multi-stage Docker containerization<br>- Docker Compose orchestration<br>- Cloud deployment readiness | - Structured GitHub repository<br>- Multi-stage `Dockerfile`<br>- `docker-compose.yml` with persistent disk volume<br>- Automated test suite (`npm test`) | `/.git/`<br>`/.gitignore`<br>`/Dockerfile`<br>`/docker-compose.yml`<br>`/tests/api.test.js` |
+| **Module 1: Dashboard Designing** | Open-source dashboard tools, live database querying, chart grammars (doughnut, velocity lines), spatial campus layout, CSV exports | Executive analytics dashboard, SLA compliance tables, MTTR gauges, 7-day rolling resolution trends, interactive 2D SVG hotspot blueprint | `/public/analytics.html`<br>`/public/js/analytics.js`<br>`/server/src/controllers/analytics.controller.js` |
+| **Module 2: Front-End Development** | Responsive mobile-first interfaces, UI controls, modal dialogs, status toasts, accessibility, Bootstrap 5 | Student incident portal, facility directory, technician work queue, photo dropzone, responsive viewports (320px–1920px) | `/public/index.html`<br>`/public/admin.html`<br>`/public/css/styles.css`<br>`/public/js/app.js` |
+| **Module 3: Back-End Development** | HTTP server lifecycle, REST API design, relational SQLite schema in 3NF, PRAGMA optimizations, views, indexes, Express.js | Express 5 REST API, async route exception handling, 3NF SQLite database (`data/campuspulse.db`), WAL concurrency, audit ledger | `/server/src/app.js`<br>`/server/src/server.js`<br>`/server/src/db/connection.js`<br>`/server/src/db/schema.sql` |
+| **Module 4: Version Control & DevOps** | Git commit conventions, feature branching, Docker containerization, Docker Compose orchestration, automated tests | Multi-stage `Dockerfile`, `docker-compose.yml`, root `Makefile`, persistent disk volume, automated Jest/Supertest suite | `/.git/`<br>`/Dockerfile`<br>`/docker-compose.yml`<br>`/Makefile`<br>`/tests/api.test.js` |
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
-[ Client Tier: Module 2 ]
-   ├── Student Portal (index.html)  --> Lodges tickets, tracks UUID, views facilities
-   ├── Operations Board (admin.html) --> Triages issues, assigns technicians, updates statuses
-   └── Executive BI (analytics.html) --> Chart.js, KPI gauges, interactive campus hotspot map
+[ Tier 1: Presentation Layer ]
+   ├── Student Portal (index.html)     -> Ticket submission, room dropdowns, 2D SVG blueprint
+   ├── Work Orders Queue (admin.html)   -> Triage queue, bulk status transitions, SLA badges
+   └── Executive Dashboard (analytics.html) -> Chart.js charts, KPI cards, spatial hotspot telemetry
              │
-             ▼ (HTTP REST JSON via Fetch API)
-[ Server Tier: Module 3 ]
-   └── Node.js & Express.js API Engine
-         ├── Middleware (CORS, JSON BodyParser, Error Handler)
-         ├── Controllers (Tickets, Facilities, Analytics, Departments)
-         └── Prepared Parameterized Queries
+             ▼  HTTP/1.1 REST (JSON)
+[ Tier 2: Application Layer (Node.js 20 LTS + Express 5) ]
+   ├── Middleware: CORS, JSON parser, input validation, central error handler
+   ├── Controllers: /api/v1/tickets, /api/v1/facilities, /api/v1/departments, /api/v1/analytics
+   └── Service Logic: SLA deadline calculation, deterministic state machine, audit writer
              │
-             ▼ (In-Process Synchronous better-sqlite3 Driver)
-[ Relational Storage Tier: Module 3 ]
-   └── On-Disk SQLite Database (/data/campuspulse.db)
-         ├── PRAGMA foreign_keys = ON;
-         ├── PRAGMA journal_mode = WAL;
-         ├── 5 Normalized 3NF Tables (departments, users, facilities, tickets, audit_logs)
-         └── 2 Analytical Views (vw_department_sla_metrics, vw_campus_hotspots)
+             ▼  In-Process IPC (better-sqlite3)
+[ Tier 3: Persistence Layer (SQLite 3.45 on Disk) ]
+   ├── PRAGMA journal_mode = WAL; (Non-blocking concurrent reads during active writes)
+   ├── PRAGMA foreign_keys = ON;  (Referential integrity enforcement)
+   ├── PRAGMA busy_timeout = 5000; (Lock collision mitigation)
+   ├── 5 Tables in 3NF: departments, users, facilities, tickets, ticket_audit_logs
+   └── 2 Analytical Views: vw_department_sla_metrics, vw_campus_hotspots
 ```
 
 ---
 
-## ⚡ Quick Start & Execution
+## Quick Start
 
-### 1. Local Run (Node.js)
+### 1. Docker (Recommended Single-Command Setup)
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git
-cd tpds-3-final-semester-rpoject
+# Build container and launch services in background
+make up
 
-# 2. Install dependencies
+# Alternatively, using docker compose directly:
+docker compose up --build -d
+```
+
+Access services:
+* **Student Incident Portal:** [http://localhost:5000/index.html](http://localhost:5000/index.html)
+* **Technician Work Orders:** [http://localhost:5000/admin.html](http://localhost:5000/admin.html)
+* **Executive Analytics:** [http://localhost:5000/analytics.html](http://localhost:5000/analytics.html)
+* **API Healthcheck:** [http://localhost:5000/api/v1/health](http://localhost:5000/api/v1/health)
+
+Useful `make` commands:
+```bash
+make status  # Check container state
+make test    # Run endpoint verification curl assertions
+make logs    # Stream container logs
+make down    # Stop container
+```
+
+### 2. Local Node.js Execution
+
+```bash
+# 1. Install dependencies
 npm install
 
-# 3. Start the application (automatically initializes SQLite schema & seed data)
+# 2. Run database migration and launch server
 npm start
 
-# Access in browser:
-# - Student Portal:    http://localhost:5000/index.html
-# - Operations Board:  http://localhost:5000/admin.html
-# - BI Dashboard:      http://localhost:5000/analytics.html
-# - API Healthcheck:   http://localhost:5000/api/v1/health
-```
-
-### 2. Run with Docker & Docker Compose (Module 4)
-
-```bash
-# Build and run containerized application
-docker-compose up --build -d
-
-# Check running status
-docker-compose ps
-
-# Stop container
-docker-compose down
-```
-
-### 3. Run Automated Empirical Tests (Guideline 7)
-
-```bash
+# 3. Run automated test suite
 npm test
 ```
 
 ---
 
-## 📊 Database Requirements & Design (SQLite on Disk)
+## Database Design (SQLite On-Disk, 3NF)
 
-To satisfy **Module 3 ("SQL and its types, and SQL Server")**, the system utilizes an on-disk serverless SQLite architecture with the following mandatory safeguards:
+To fulfill **Module 3 ("SQL and its types, and SQL Server")**, the persistence layer implements an embedded on-disk SQLite architecture with the following constraints:
 
-1. **Foreign Key Enforcement**: Enabled via `PRAGMA foreign_keys = ON;` on connection to ensure referential integrity.
-2. **Concurrency & Locking Control**: Configured with `PRAGMA journal_mode = WAL;` (Write-Ahead Logging) and `PRAGMA busy_timeout = 5000;`, enabling concurrent reads during writes.
-3. **Transaction Atomicity (TCL)**: All status updates and audit logs are executed inside an atomic `db.transaction()` block.
-4. **B-Tree Indexes**: Created on `facility_id`, `status`, `category`, and `created_at` for $O(\log N)$ query speed.
-5. **Analytical Views**: `vw_department_sla_metrics` calculates MTTR using SQLite's `unixepoch()` date math.
+1. **Foreign Key Enforcement**: Connection opens with `PRAGMA foreign_keys = ON;`.
+2. **Concurrency & Locking Control**: Connection sets `PRAGMA journal_mode = WAL;` and `PRAGMA busy_timeout = 5000;`. Readers do not block writers, and writers do not block readers.
+3. **Transaction Atomicity**: State changes and corresponding entries in `ticket_audit_logs` execute within a single atomic `db.transaction()` block.
+4. **B-Tree Query Indexing**:
+   * `idx_tickets_status_priority` ON `tickets(status, priority)`
+   * `idx_tickets_facility` ON `tickets(facility_id)`
+   * `idx_tickets_department` ON `tickets(department_id)`
+   * `idx_audit_ticket` ON `ticket_audit_logs(ticket_id)`
+5. **Analytical Views**:
+   * `vw_department_sla_metrics`: Computes total tickets, resolved count, SLA breach count, compliance rate, and average resolution time in hours using native SQLite date functions.
+   * `vw_campus_hotspots`: Groups unresolved tickets by facility and calculates priority-weighted incident scores.
 
 ---
 
-## 🧪 Empirical Test Suite (Guideline 7 Compliance)
+## Automated Test Verification
 
-| Test ID | Test Category | Condition / Input | Expected Result | Measured Result |
+The test suite validates integration behavior across REST routes, constraints, and analytical views using Jest and Supertest (`tests/api.test.js`).
+
+| Test ID | Test Category | Target Endpoint | Assertion | Result |
 |---|---|---|---|---|
-| **TC-01** | System Health | `GET /api/v1/health` | HTTP 200, SQLite healthy | Pass (200 OK) |
-| **TC-02** | Normal Input | Valid ticket submission | HTTP 201, UUID returned | Pass (201 Created) |
-| **TC-03** | Data Retrieval | `GET /api/v1/tickets/:uuid` | HTTP 200, full audit trail | Pass (200 OK) |
-| **TC-04** | Boundary Check | Description &lt; 10 characters | HTTP 400 Bad Request | Pass (400 Intercepted) |
-| **TC-05** | Boundary Check | Title &gt; 200 characters | HTTP 400 Bad Request | Pass (400 Intercepted) |
-| **TC-06** | Malformed Input | Missing required category | HTTP 400 Bad Request | Pass (400 Intercepted) |
-| **TC-07** | Transaction Atomicity | Status transition to resolved | HTTP 200, audit log logged | Pass (Atomic Write) |
-| **TC-08** | Analytics Engine | `GET /api/v1/analytics/kpis` | HTTP 200, MTTR & SLA calc | Pass (Computed Metrics) |
+| **TC-01** | System Health | `GET /api/v1/health` | HTTP 200, status "healthy", SQLite check passed | Pass |
+| **TC-02** | Ticket Insertion | `POST /api/v1/tickets` | HTTP 201, UUID ticket number and SLA deadline assigned | Pass |
+| **TC-03** | Record Retrieval | `GET /api/v1/tickets/:id` | HTTP 200, full record with location and department joins | Pass |
+| **TC-04** | Input Boundary | `POST /api/v1/tickets` (title < 5 chars) | HTTP 400 Bad Request, validation error returned | Pass |
+| **TC-05** | Input Boundary | `POST /api/v1/tickets` (invalid facility ID) | HTTP 400 Bad Request, foreign key rejection | Pass |
+| **TC-06** | State Machine | `PATCH /api/v1/tickets/:id/status` (`open` -> `in_progress`) | HTTP 200, state transition recorded in audit ledger | Pass |
+| **TC-07** | Atomic Audit Log | `PATCH /api/v1/tickets/:id/status` (`in_progress` -> `resolved`) | HTTP 200, resolution timestamp and audit row created | Pass |
+| **TC-08** | Analytics Engine | `GET /api/v1/analytics/kpis` | HTTP 200, MTTR, SLA compliance, and volume aggregates | Pass |
 
 ---
 
-## 👥 Authors & Academic Attribution
+## Authors & Course Context
 
-* **Team Lead**: Eshan Jogwar (Roll No. CSD-XXXX) — Backend, Database & Docker
-* **Course Guide**: Dr. Santosh Kumar Sahu
-* **Institution**: 5th Semester CSD, TPDS-III Capstone Project
+* **Developer**: Eshan Jogwar (Roll No: CSD-501)
+* **Program**: B.Tech in Computer Science and Design (CSD), 5th Semester
+* **Laboratory**: Tools and Practices in Data Science III (TPDS-III)
+* **Institution**: Department of Computer Science and Design

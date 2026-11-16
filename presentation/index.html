@@ -647,8 +647,8 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>02 · CONTEXT & PROBLEM FORMULATION</div>
-                        <h2 class="slide-title">Campus Infrastructure Management: Current Inefficiencies</h2>
-                        <div class="slide-subtitle">Why Traditional Campus Incident Workflows Break Down in Operation</div>
+                        <h2 class="slide-title">Manual Facility Workflows Create 48-Hour Delays and Duplicate Noise</h2>
+                        <div class="slide-subtitle">Operational Bottlenecks in Traditional Campus Incident Management</div>
                     </div>
                     <div class="header-meta-badge">OPERATIONAL BOTTLENECKS</div>
                 </div>
@@ -763,7 +763,7 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>03 · SYSTEM CONCEPT & VALUE PROPOSITION</div>
-                        <h2 class="slide-title">Campus Solution Architecture</h2>
+                        <h2 class="slide-title">Closed-Loop Architecture Resolves Incidents from Report to Audit Sign-Off</h2>
                         <div class="slide-subtitle">End-to-End Operational Lifecycle and Multi-Stakeholder Workflows</div>
                     </div>
                     <div class="header-meta-badge">CLOSED-LOOP WORKFLOW</div>
@@ -844,7 +844,7 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>04 · TECHNICAL ARCHITECTURE</div>
-                        <h2 class="slide-title">Full-Stack Architecture and Technology Stack</h2>
+                        <h2 class="slide-title">Decoupled 3-Tier Stack Delivers Sub-15ms Latency and Crash Resilience</h2>
                         <div class="slide-subtitle">Decoupled 3-Tier Design with On-Disk SQLite Storage and Containerization</div>
                     </div>
                     <div class="header-meta-badge">3-TIER SYSTEM</div>
@@ -925,7 +925,7 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>05 · DATA ENGINEERING & SCHEMA</div>
-                        <h2 class="slide-title">Relational Schema and Normalization Strategy</h2>
+                        <h2 class="slide-title">Normalized 3NF Relational Schema Enforces Complete State Auditability</h2>
                         <div class="slide-subtitle">Third Normal Form (3NF) Architecture with Materialized Analytical Views</div>
                     </div>
                     <div class="header-meta-badge">3NF RELATIONAL MODEL</div>
@@ -1003,7 +1003,7 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>06 · FEATURE DEMONSTRATION</div>
-                        <h2 class="slide-title">Core System Features: Reporting and Work Orders</h2>
+                        <h2 class="slide-title">Low-Friction Interfaces Enable Sub-30-Second Reporting and Bulk Triage</h2>
                         <div class="slide-subtitle">End-to-End Incident Processing Workflow in Live Operational Action</div>
                     </div>
                     <div class="header-meta-badge">LIVE UI VERIFICATION</div>
@@ -1067,7 +1067,7 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>07 · ANALYTICS & DECISION SUPPORT</div>
-                        <h2 class="slide-title">Facility Analytics and SLA Compliance Intelligence</h2>
+                        <h2 class="slide-title">Executive Telemetry Identifies Spatial Failure Hotspots and SLA Breaches</h2>
                         <div class="slide-subtitle">Real-Time Operational Telemetry for University Leadership and Facility Directors</div>
                     </div>
                     <div class="header-meta-badge">DECISION TELEMETRY</div>
@@ -1143,7 +1143,7 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>08 · ENGINEERING RIGOR & QUALITY ASSURANCE</div>
-                        <h2 class="slide-title">Engineering Decisions, Performance, and Verification</h2>
+                        <h2 class="slide-title">Automated Integration Testing Validates Concurrency and API Latency</h2>
                         <div class="slide-subtitle">Robustness, Concurrency, State Machine Integrity, and 100% Automated Testing</div>
                     </div>
                     <div class="header-meta-badge">TESTED & VERIFIED</div>
@@ -1224,7 +1224,7 @@
                 <div class="slide-header">
                     <div class="header-left">
                         <div class="slide-section-kicker"><span class="kicker-dot"></span>09 · ROADMAP & CONCLUSION</div>
-                        <h2 class="slide-title">Future Roadmap and Project Conclusion</h2>
+                        <h2 class="slide-title">Campus Delivers Scalable Infrastructure Intelligence for Modern Universities</h2>
                         <div class="slide-subtitle">Scaling Campus into an Autonomous Smart Campus Intelligence Platform</div>
                     </div>
                     <div class="header-meta-badge">CAPSTONE CONCLUSION</div>
@@ -1357,63 +1357,63 @@
         const slideNotesData = [
             {
                 slide: 1,
-                title: "Slide 1: Title and Overview",
+                title: "Slide 1: Campus: Facility Maintenance and Asset Intelligence Platform",
                 script: "Good morning, members of the evaluation committee. Today we present Campus, an integrated campus facility maintenance and asset intelligence platform developed for the TPDS-III capstone curriculum. Universities operate like small cities, with hundreds of classrooms, laboratories, and residential wings requiring continuous facility management. Yet most campuses still handle equipment failures through manual WhatsApp groups, paper registers, or untracked helpdesks. Campus replaces that fragmentation with a clean incident lifecycle, automated department dispatch, strict SLA compliance tracking, and spatial hotspot analytics. In this presentation, we will walk you through our architectural decisions, normalized 3NF database schema, real-time analytics engine, containerized deployment, and live software demonstration.",
                 question: "What differentiates this project from a generic helpdesk ticketing tool?",
                 defense: "Generic ticketing systems treat tickets as flat support conversations. Campus is purpose-built for physical infrastructure: it couples tickets with structural campus entities (buildings, floors, rooms, and asset codes), enforces time-to-breach countdown timers based on department SLAs, tracks state transitions in an immutable audit ledger, and computes spatial hotspots directly onto an interactive campus blueprint."
             },
             {
                 slide: 2,
-                title: "Slide 2: Problem Statement and Motivation",
+                title: "Slide 2: Manual Facility Workflows Create 48-Hour Delays and Duplicate Noise",
                 script: "To understand why we built Campus, examine the daily friction inside any college campus. When an air conditioner malfunctions in a seminar hall or water leaks in a science laboratory, students notify whoever is nearby. The message passes through three or four intermediaries before reaching maintenance. Because there is no central tracking system, several students report the identical issue, creating duplicate noise. Critical emergencies compete with cosmetic repairs for the same technician. Technicians close complaints verbally without time stamps, meaning administration has zero data on whether maintenance contractors meet their contractual service level agreements. Campus resolves this entire breakdown by formalizing the pipeline from initial report to verified technician sign-off.",
                 question: "How did you determine the 24 to 48 hour baseline for manual triage?",
                 defense: "We interviewed departmental lab assistants and facility supervisors on campus. In the current process, paper complaints must be physically transcribed into an administrative register before being assigned to trade contractors during weekly review cycles, directly causing multi-day delays."
             },
             {
                 slide: 3,
-                title: "Slide 3: Proposed Solution Architecture",
+                title: "Slide 3: Closed-Loop Architecture Resolves Incidents from Report to Audit Sign-Off",
                 script: "Campus bridges three core campus groups into a single closed loop. First, for students and faculty, we provide an intuitive web interface where an issue can be documented with photographic proof in under 30 seconds. Second, the backend system processes the submission, matches the facility category with the correct trade department such as Electrical, Plumbing, or HVAC, and starts an SLA countdown clock. Third, maintenance staff work from an administrative work queue equipped with bulk status controls, quick search filters, and single-click state transitions. Every state modification writes to an append-only audit table. Finally, campus directors see an executive analytics dashboard displaying facility hotspots, vendor compliance, and resolution velocity.",
                 question: "What happens if a student files a ticket under the wrong department?",
                 defense: "Facility administrators have re-assignment capabilities in the administrative console. Updating a ticket department recalculates the applicable SLA threshold and automatically records the reassignment in the ticket audit log with a timestamp and administrative user identifier."
             },
             {
                 slide: 4,
-                title: "Slide 4: System Architecture and Technical Stack",
+                title: "Slide 4: Decoupled 3-Tier Stack Delivers Sub-15ms Latency and Crash Resilience",
                 script: "Here we see the architectural blueprint of Campus. We chose a decoupled three-tier architecture focused on performance, durability, and operational simplicity. On the client side, we avoided heavy frontend frameworks like React or Angular to ensure instant load times and zero compilation friction on standard campus Wi-Fi networks. Bootstrap 5, modular ES6 JavaScript, and Chart.js provide a modern interface across mobile phones, tablets, and desktops. The application tier runs on Node.js with Express 5, which handles asynchronous exceptions natively without error-prone wrapper functions. For our persistence layer, following syllabus guidance, we eliminated external database server overhead by utilizing on-disk SQLite with Write-Ahead Logging enabled. WAL mode allows concurrent readers to query analytics while writes occur without lock starvation. The entire stack is packaged into a container managed through a Makefile, allowing complete one-command local or cloud deployment.",
                 question: "Why use SQLite rather than PostgreSQL or MySQL for a university platform?",
                 defense: "SQLite with Write-Ahead Logging delivers over 50,000 read operations per second with sub-millisecond query latency because data operations bypass TCP/IP networking loops. For a campus infrastructure management system generating hundreds of work orders per day, SQLite provides zero-configuration reliability, zero background server daemon vulnerabilities, and single-file backup simplicity. If the university ever scales past 50,000 concurrent daily writes, the repository layer is fully decoupled and can be migrated to PostgreSQL without altering frontend contracts."
             },
             {
                 slide: 5,
-                title: "Slide 5: Database Design and 3NF Data Modeling",
+                title: "Slide 5: Normalized 3NF Relational Schema Enforces Complete State Auditability",
                 script: "Data integrity is the bedrock of Campus. We strictly normalized our data layer to Third Normal Form. Notice how tickets do not store facility room details or department contact information directly. Instead, foreign keys reference dedicated facilities and departments tables. This eliminates update anomalies: if a department changes its SLA benchmark or a room is repurposed, historical ticket records remain structurally sound. Every status modification writes a record into ticket_audit_logs, providing an immutable audit trail showing who transitioned a ticket and when. To accelerate analytics without complicating application code, we defined database views: vw_department_sla_metrics calculates live compliance rates and average resolution durations using SQLite native date math, and vw_campus_hotspots surfaces locations experiencing recurring maintenance problems.",
                 question: "Why create database views instead of computing metrics in Node.js?",
                 defense: "Computing aggregations at the database engine level is significantly faster because SQLite executes aggregations natively in compiled C, utilizing index structures and avoiding the overhead of streaming thousands of individual JSON rows across the IPC boundary into Node.js memory."
             },
             {
                 slide: 6,
-                title: "Slide 6: Key Features: Student Portal and Work Orders Queue",
+                title: "Slide 6: Low-Friction Interfaces Enable Sub-30-Second Reporting and Bulk Triage",
                 script: "This slide displays the core operational interfaces of Campus in live action. In Figure 4, we see the Student and Staff Reporting Portal. Submitting an issue takes under 30 seconds. A student selects their building and room or clicks directly on the interactive 2D campus blueprint. The blueprint dynamically colors rooms based on their operational status: green for normal, red for active critical issues. The reporting form includes a drag-and-drop dropzone for visual proof, which maintenance staff rely upon to bring the correct replacement parts. In Figure 5, we show the Administrative Work Orders Queue used by facility staff. Technicians can filter by trade, search by room number, and sort by SLA deadline. We implemented bulk action capabilities so a technician servicing a full floor can select multiple plumbing tickets and transition them all to 'In Progress' or 'Resolved' in a single operation.",
                 question: "How does the interactive blueprint receive real-time room status updates?",
                 defense: "On page load and following ticket creation, the client queries /api/v1/facilities. The frontend iterates through the SVG room elements matching data-room attributes and applies CSS status classes based on the highest-severity unresolved ticket logged against that location."
             },
             {
                 slide: 7,
-                title: "Slide 7: Maintenance Analytics and Operational Intelligence",
+                title: "Slide 7: Executive Telemetry Identifies Spatial Failure Hotspots and SLA Breaches",
                 script: "Operational data without actionable visualization is useless to university leadership. Slide 7 demonstrates the Campus Analytics Dashboard shown in Figure 6. At the top, executive KPI cards immediately answer critical operational questions: what is our global SLA compliance rate, how many unresolved work orders are active right now, and what is our campus-wide Mean Time to Resolution? Below the KPI strip, Chart.js renders two analytical perspectives: a 7-day workload trend line showing ticket creation versus resolution pace, and a category distribution doughnut highlighting where maintenance load concentrates. Notice the Department SLA Compliance table in the bottom left. It computes compliance percentages for Electrical, Plumbing, HVAC, and Carpentry directly from our SQL view. Facilities exhibiting more than two active complaints appear on the Hotspot table, giving leadership concrete data on which campus assets require complete replacement rather than continued short-term patching.",
                 question: "How does the platform handle time zone discrepancies when calculating SLA deadlines?",
                 defense: "All timestamps are strictly generated and stored in ISO 8601 UTC format (YYYY-MM-DDTHH:MM:SS.SSSZ). SQLite date-time functions compute elapsed duration in UTC seconds, and the client browser renders local formatted times according to the user's localized browser locale."
             },
             {
                 slide: 8,
-                title: "Slide 8: Technical Engineering Highlights and Evaluation",
+                title: "Slide 8: Automated Integration Testing Validates Concurrency and API Latency",
                 script: "Engineering rigor separates an academic prototype from production-ready software. On this slide, we summarize three key engineering decisions. First, following syllabus requirements, we configured on-disk SQLite with Write-Ahead Logging and a 5-second busy timeout. This allows analytical queries to execute without blocking incoming ticket submissions from students. Second, we enforced a strict state machine with immutable audit logging. A ticket cannot skip from open to closed without logging who performed the work and recording intermediate state in ticket_audit_logs. Third, our deployment uses Docker orchestration that packages the Node.js runtime and compiled SQLite bindings into an isolated container. As shown in Figure 7, our automated integration test suite exercises all REST endpoints, validation constraints, and database views with 100% passing results.",
                 question: "How do you guarantee database consistency if the Docker container is forcibly killed?",
                 defense: "SQLite Write-Ahead Logging writes transactions to a separate -wal file before committing them to the primary database file. If power is lost or the container stops abruptly, SQLite automatically replays the WAL log upon restart, restoring consistent transactional state without data corruption."
             },
             {
                 slide: 9,
-                title: "Slide 9: Future Scope, Project Takeaways, and Conclusion",
+                title: "Slide 9: Campus Delivers Scalable Infrastructure Intelligence for Modern Universities",
                 script: "In conclusion, Campus demonstrates how thoughtful software engineering and normalized relational design can solve longstanding physical campus inefficiencies. Over this semester, we built a fully containerized, responsive web system featuring 3NF SQLite persistence, automated SLA compliance tracking, interactive spatial mapping, and executive telemetry. Looking forward, our architecture easily accommodates QR code scanning at classroom doors, IoT water and power sensor alerts, and mobile push notifications for maintenance crews. The complete source code, database migrations, test suites, and Docker orchestration files are publicly available on GitHub. Thank you for your time, and we now welcome any questions from the examination committee.",
                 question: "If you had two more weeks, what single feature would you implement first?",
                 defense: "We would implement dynamic QR code generation for facilities. Generating a printable QR code for each room that encodes ?building=Engineering&room=302 would allow any student to scan with their phone camera and immediately arrive at a pre-filled incident submission screen, reducing report friction to under ten seconds."
