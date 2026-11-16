@@ -3,7 +3,8 @@
 **Project Title:** CampusPulse: Campus Facility Maintenance and Asset Intelligence Platform  
 **Course:** Tools and Practices in Data Science III (TPDS-III)  
 **Academic Level:** 5th Semester B.Tech in Computer Science and Design (CSD)  
-**Document Purpose:** This document provides an exhaustive, production-ready specification for creating a 9-slide academic defense presentation. An automated presentation generator, an LLM slide agent, or a human designer can translate every specification directly into slides (e.g. Marp, Reveal.js, Deckset, or PowerPoint 16:9).
+**Repository:** [https://github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git](https://github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git)  
+**Document Purpose:** This specification provides an exhaustive, production-ready blueprint for creating a 9-slide academic defense presentation. Every slide contains embedded visual screenshots, exact layout geometry, color design tokens, bullet text, verbatim speaker notes, and prepared Q&A defenses. Automated presentation generators (Marp, Reveal.js, Deckset) or slide design agents can translate each section directly into presentation decks.
 
 ---
 
@@ -84,7 +85,7 @@ Slide generators must follow these exact design variables:
 
 ### 2. Layout and Visual Geometry
 - **Layout:** Two-column split (50% left: Operational bottlenecks; 50% right: Quantified failure modes and impact matrix).
-- Left column contains three structured problem callouts with red caution icons.
+- Left column contains four structured problem callouts with red caution markers.
 - Right column displays an operational cost impact table comparing current manual processes against target automated baselines.
 
 ### 3. Typography and Styling
@@ -122,14 +123,19 @@ Slide generators must follow these exact design variables:
 - **Sub-title:** End-to-End Operational Lifecycle and Stakeholder Workflows
 
 ### 2. Layout and Visual Geometry
-- **Layout:** Horizontal 4-step pipeline flowchart across the top 60% of the slide, followed by three role-based value cards across the bottom 40%.
-- Step 1: Instant Capture -> Step 2: Automated Routing -> Step 3: Technician Execution -> Step 4: Analytical Feedback.
+- **Layout:** High-impact visual pipeline diagram card followed by detailed stakeholder value cards.
+- The workflow diagram visually depicts the four operational phases: Capture, Routing, Execution, and Telemetry.
 
-### 3. Typography and Styling
+### 3. Visual Media and Asset Integration
+
+![Figure 1: CampusPulse Operational Workflow Pipeline](docs/screenshots/workflow-pipeline.png)
+*Figure 1: Closed-loop incident processing workflow from student reporting to real-time administrative telemetry.*
+
+### 4. Typography and Styling
 - Pipeline step cards: Gradient border top (3px `#0284c7`), card background `#ffffff`, drop shadow.
 - Role cards: Left border indicator (Green for Students, Blue for Technicians, Purple for Facility Managers).
 
-### 4. Exact Slide Content
+### 5. Exact Slide Content
 - **Lifecycle Pipeline:**
   1. Capture: Students report issues in under 30 seconds via mobile-optimized portal with drag-and-drop photo proof and location dropdowns.
   2. Triage: Engine matches category to department, assigns SLA deadlines, and flags priority based on severity.
@@ -140,10 +146,10 @@ Slide generators must follow these exact design variables:
   - For Maintenance Staff: Filtered work order lists, priority badges, bulk status batching, trade-specific views.
   - For University Leadership: Mean Time to Resolution metrics, department SLA ranking, repeat failure hotspot map for proactive budget allocation.
 
-### 5. Presenter Script (Spoken Monologue, 90 seconds)
+### 6. Presenter Script (Spoken Monologue, 90 seconds)
 "CampusPulse bridges three core campus groups into a single closed loop. First, for students and faculty, we provide an intuitive web interface where an issue can be documented with photographic proof in under 30 seconds. Second, the backend system processes the submission, matches the facility category with the correct trade department such as Electrical, Plumbing, or HVAC, and starts an SLA countdown clock. Third, maintenance staff work from an administrative work queue equipped with bulk status controls, quick search filters, and single-click state transitions. Every state modification writes to an append-only audit table. Finally, campus directors see an executive analytics dashboard displaying facility hotspots, vendor compliance, and resolution velocity."
 
-### 6. Anticipated Committee Questions and Prepared Defenses
+### 7. Anticipated Committee Questions and Prepared Defenses
 - **Question:** What happens if a student files a ticket under the wrong department?
   - **Defense:** Facility administrators have re-assignment capabilities in the administrative console. Updating a ticket department recalculates the applicable SLA threshold and automatically records the reassignment in the ticket audit log with a timestamp and administrative user identifier.
 
@@ -158,17 +164,21 @@ Slide generators must follow these exact design variables:
 - **Sub-title:** Decoupled 3-Tier Design with On-Disk SQLite Storage
 
 ### 2. Layout and Visual Geometry
-- **Layout:** 3-tier horizontal layered diagram (Client Layer -> Server Layer -> Data Layer) with an adjacent Docker deployment container card.
-- Layer 1 (Top): Responsive Presentation Tier (HTML5, Bootstrap 5, Vanilla JavaScript, Chart.js, SVG Blueprint Engine).
-- Layer 2 (Middle): Express.js 5 REST API Tier (REST Controllers, SLA Computation Engine, Input Validation, Winston Logger).
-- Layer 3 (Bottom): SQLite On-Disk Storage Tier (WAL Mode, Foreign Key Enforcement, Analytical Aggregation Views).
-- Side Badge (Right 25%): Docker Containerization (Multi-stage build, Alpine Linux base image, persistent Docker named volume).
+- **Layout:** Complete 3-tier horizontal layered architecture diagram with protocol flows and Docker containerization box.
+- Layer 1: Client Presentation Tier (HTML5, Bootstrap 5, ES6 JavaScript, Chart.js, 2D SVG Blueprint).
+- Layer 2: Express.js REST API Tier (Controllers, SLA Engine, Audit Logger, Input Sanitizer).
+- Layer 3: Persistence Tier (SQLite 3.45 via `better-sqlite3`, WAL Mode, Materialized Views).
 
-### 3. Typography and Styling
+### 3. Visual Media and Asset Integration
+
+![Figure 2: CampusPulse Decoupled 3-Tier System Architecture](docs/screenshots/system-architecture.png)
+*Figure 2: Full-stack system architecture illustrating decoupled tiers, RESTful communication, and Docker orchestration.*
+
+### 4. Typography and Styling
 - Tier cards: Rounded rectangles with clear connecting arrows illustrating bidirectional HTTP JSON payload flows.
 - Monospace labels for all protocols: `HTTP/1.1 REST (JSON)`, `better-sqlite3 IPC`, `Docker Engine v27+`.
 
-### 4. Exact Slide Content
+### 5. Exact Slide Content
 - **Tier 1: Presentation Layer**
   - Framework: Bootstrap 5.3 + Custom Responsive Design System
   - Scripting: Modern ES6+ JavaScript (zero heavy client-side build steps, instant browser execution)
@@ -185,13 +195,13 @@ Slide generators must follow these exact design variables:
   - Integrity: Strict foreign key enforcement (`PRAGMA foreign_keys = ON`)
   - Query Optimization: Indexed lookups on foreign keys, priority, status, and creation timestamps
 - **Containerization Specification:**
-  - Base Image: Alpine Linux 3.20 (total production image footprint under 140MB)
+  - Base Image: Official `node:20` LTS image with pre-packaged glibc and compilation libraries
   - Storage Isolation: Docker named volume (`campuspulse-data`) mounted to `/app/data` to ensure zero database loss across container rebuilds
 
-### 5. Presenter Script (Spoken Monologue, 100 seconds)
-"Here we see the architectural blueprint of CampusPulse. We chose a decoupled three-tier architecture focused on performance, durability, and operational simplicity. On the client side, we avoided heavy frontend frameworks like React or Angular to ensure instant load times and zero compilation friction on standard campus Wi-Fi networks. Bootstrap 5, modular ES6 JavaScript, and Chart.js provide a modern interface across mobile phones, tablets, and desktops. The application tier runs on Node.js with Express 5, which handles asynchronous exceptions natively without error-prone wrapper functions. For our persistence layer, following syllabus guidance, we eliminated external database server overhead by utilizing on-disk SQLite with Write-Ahead Logging enabled. WAL mode allows concurrent readers to query analytics while writes occur without lock starvation. The entire stack is packaged into a multi-stage Docker container managed through a Makefile, allowing complete one-command local or cloud deployment."
+### 6. Presenter Script (Spoken Monologue, 100 seconds)
+"Here we see the architectural blueprint of CampusPulse. We chose a decoupled three-tier architecture focused on performance, durability, and operational simplicity. On the client side, we avoided heavy frontend frameworks like React or Angular to ensure instant load times and zero compilation friction on standard campus Wi-Fi networks. Bootstrap 5, modular ES6 JavaScript, and Chart.js provide a modern interface across mobile phones, tablets, and desktops. The application tier runs on Node.js with Express 5, which handles asynchronous exceptions natively without error-prone wrapper functions. For our persistence layer, following syllabus guidance, we eliminated external database server overhead by utilizing on-disk SQLite with Write-Ahead Logging enabled. WAL mode allows concurrent readers to query analytics while writes occur without lock starvation. The entire stack is packaged into a container managed through a Makefile, allowing complete one-command local or cloud deployment."
 
-### 6. Anticipated Committee Questions and Prepared Defenses
+### 7. Anticipated Committee Questions and Prepared Defenses
 - **Question:** Why use SQLite rather than PostgreSQL or MySQL for a university platform?
   - **Defense:** SQLite with Write-Ahead Logging delivers over 50,000 read operations per second with sub-millisecond query latency because data operations bypass TCP/IP networking loops. For a campus infrastructure management system generating hundreds of work orders per day, SQLite provides zero-configuration reliability, zero background server daemon vulnerabilities, and single-file backup simplicity. If the university ever scales past 50,000 concurrent daily writes, the repository layer is fully decoupled and can be migrated to PostgreSQL without altering frontend contracts.
 
@@ -206,15 +216,20 @@ Slide generators must follow these exact design variables:
 - **Sub-title:** Third Normal Form (3NF) Architecture with Materialized Analytical Views
 
 ### 2. Layout and Visual Geometry
-- **Layout:** Entity Relationship Diagram (ERD) schema diagram showing the 5 primary tables and their foreign key cardinalities, accompanied by a schema highlights table.
+- **Layout:** Entity Relationship Diagram (ERD) schema diagram showing the 5 primary tables, foreign key relationships, column types, and analytical views.
 - Primary Tables: `departments`, `users`, `facilities`, `tickets`, `ticket_audit_logs`.
 - Analytical Views: `vw_department_sla_metrics`, `vw_campus_hotspots`.
 
-### 3. Typography and Styling
+### 3. Visual Media and Asset Integration
+
+![Figure 3: CampusPulse Relational Schema & 3NF Entity Relationship Diagram](docs/screenshots/database-schema-erd.png)
+*Figure 3: Relational 3NF database schema showing primary keys, foreign key relationships, and analytical views.*
+
+### 4. Typography and Styling
 - Tables styled as database schema cards with column types, primary keys (`[PK]`), and foreign keys (`[FK]`).
 - Monospace font for table names, field names, and SQL statements.
 
-### 4. Exact Slide Content
+### 5. Exact Slide Content
 - **Schema Entities:**
   - `departments`: `id` [PK], `name`, `code`, `contact_email`, `sla_hours`, `created_at`
   - `users`: `id` [PK], `name`, `email`, `role` (student, faculty, staff, admin), `department_id` [FK], `created_at`
@@ -234,10 +249,10 @@ Slide generators must follow these exact design variables:
   - `idx_tickets_department` ON `tickets(department_id)`
   - `idx_audit_ticket` ON `ticket_audit_logs(ticket_id)`
 
-### 5. Presenter Script (Spoken Monologue, 100 seconds)
+### 6. Presenter Script (Spoken Monologue, 100 seconds)
 "Data integrity is the bedrock of CampusPulse. We strictly normalized our data layer to Third Normal Form. Notice how tickets do not store facility room details or department contact information directly. Instead, foreign keys reference dedicated `facilities` and `departments` tables. This eliminates update anomalies: if a department changes its SLA benchmark or a room is repurposed, historical ticket records remain structurally sound. Every status modification writes a record into `ticket_audit_logs`, providing an immutable audit trail showing who transitioned a ticket and when. To accelerate analytics without complicating application code, we defined database views: `vw_department_sla_metrics` calculates live compliance rates and average resolution durations using SQLite native date math, and `vw_campus_hotspots` surfaces locations experiencing recurring maintenance problems."
 
-### 6. Anticipated Committee Questions and Prepared Defenses
+### 7. Anticipated Committee Questions and Prepared Defenses
 - **Question:** Why create database views instead of computing metrics in Node.js?
   - **Defense:** Computing aggregations at the database engine level is significantly faster because SQLite executes aggregations natively in compiled C, utilizing index structures and avoiding the overhead of streaming thousands of individual JSON rows across the IPC boundary into Node.js memory.
 
@@ -252,46 +267,39 @@ Slide generators must follow these exact design variables:
 - **Sub-title:** End-to-End Incident Processing Workflow
 
 ### 2. Layout and Visual Geometry
-- **Layout:** Side-by-side comparative split screen showcasing real application screenshots.
-  - Left Half (50%): Student Portal interface screenshot (`student-portal.png`) with callout markers.
-  - Right Half (50%): Work Orders Queue screenshot (`work-orders-queue.png`) with operational control highlights.
+- **Layout:** Two full-bleed application screenshots showcasing real system operations.
+  - Top Section: Student Portal interface screenshot (`student-portal.png`).
+  - Bottom Section: Work Orders Queue screenshot (`work-orders-queue.png`).
 - Visual framing: Clean browser frames with subtle drop shadows (`0 10px 25px -5px rgba(0, 0, 0, 0.1)`).
 
-### 3. Typography and Styling
-- Badge markers numbered 1, 2, 3 overlaid on screenshots linking directly to descriptive feature bullets below each image.
+### 3. Visual Media and Asset Integration
 
-### 4. Visual Media and Asset Integration
-- **Left Image Asset:**
-  - Path: `docs/screenshots/student-portal.png`
-  - Caption: Figure 1: Student Incident Submission Portal and Interactive Campus Blueprint
-  - Highlight Overlays:
-    - Callout 1: 30-Second Incident Submission Form with dynamic department mapping
-    - Callout 2: Drag-and-drop photo attachment dropzone
-    - Callout 3: Interactive SVG Campus Blueprint with real-time room status fill
-- **Right Image Asset:**
-  - Path: `docs/screenshots/work-orders-queue.png`
-  - Caption: Figure 2: Maintenance Work Order Queue with Bulk Management and SLA Badges
-  - Highlight Overlays:
-    - Callout 4: Multi-criteria status and priority filtering toolbar
-    - Callout 5: Bulk selection checkboxes and multi-ticket status batch updater
-    - Callout 6: Sortable column headers and real-time SLA deadline status badges
+#### Part A: Student Incident Submission Portal & Interactive Campus Blueprint
 
-### 5. Exact Slide Content
-- **Student Portal Highlights (Left Column):**
+![Figure 4: Student Incident Submission Portal and Interactive Campus Blueprint](docs/screenshots/student-portal.png)
+*Figure 4: Student Portal featuring the 30-second ticket submission form, drag-and-drop photo dropzone, and interactive 2D SVG campus floorplan.*
+
+#### Part B: Maintenance Work Orders Queue & Bulk Action Controls
+
+![Figure 5: Maintenance Work Order Queue with Bulk Management and SLA Badges](docs/screenshots/work-orders-queue.png)
+*Figure 5: Administrative Work Order Queue displaying priority badges, trade filtering, sortable table headers, and bulk status controls.*
+
+### 4. Exact Slide Content
+- **Student Portal Highlights:**
   - Instant Form Submission: Dropdowns pre-filter facilities by building and department, reducing data entry errors.
   - Drag-and-Drop Dropzone: Visual photo upload zone with image preview and file validation.
   - Spatial Blueprint Selection: Users click directly on campus blueprint rooms to auto-populate the reporting form.
   - Client-Side Validation: Validates email format, title length, and required parameters before sending HTTP requests.
-- **Work Orders Queue Highlights (Right Column):**
+- **Work Orders Queue Highlights:**
   - Unified Technician Queue: Real-time tabular display of all campus tickets with responsive pagination.
   - Bulk Action Pipeline: Select multiple tickets simultaneously and transition them to "In Progress" or "Resolved" with a single click.
   - Color-Coded Priority: Instant visual triage for Critical (Red), High (Orange), Medium (Yellow), and Low (Green).
   - SLA Breach Warning: Visual badges highlight work orders approaching or exceeding allowable SLA thresholds.
 
-### 6. Presenter Script (Spoken Monologue, 100 seconds)
-"This slide displays the core operational interfaces of CampusPulse in live action. On the left, we see the Student and Staff Reporting Portal. Submitting an issue takes under 30 seconds. A student selects their building and room or clicks directly on the interactive 2D campus blueprint. The blueprint dynamically colors rooms based on their operational status: green for normal, red for active critical issues. The reporting form includes a drag-and-drop dropzone for visual proof, which maintenance staff rely upon to bring the correct replacement parts. On the right, we show the Administrative Work Orders Queue used by facility staff. Technicians can filter by trade, search by room number, and sort by SLA deadline. We implemented bulk action capabilities so a technician servicing a full floor can select multiple plumbing tickets and transition them all to 'In Progress' or 'Resolved' in a single operation."
+### 5. Presenter Script (Spoken Monologue, 100 seconds)
+"This slide displays the core operational interfaces of CampusPulse in live action. In Figure 4, we see the Student and Staff Reporting Portal. Submitting an issue takes under 30 seconds. A student selects their building and room or clicks directly on the interactive 2D campus blueprint. The blueprint dynamically colors rooms based on their operational status: green for normal, red for active critical issues. The reporting form includes a drag-and-drop dropzone for visual proof, which maintenance staff rely upon to bring the correct replacement parts. In Figure 5, we show the Administrative Work Orders Queue used by facility staff. Technicians can filter by trade, search by room number, and sort by SLA deadline. We implemented bulk action capabilities so a technician servicing a full floor can select multiple plumbing tickets and transition them all to 'In Progress' or 'Resolved' in a single operation."
 
-### 7. Anticipated Committee Questions and Prepared Defenses
+### 6. Anticipated Committee Questions and Prepared Defenses
 - **Question:** How does the interactive blueprint receive real-time room status updates?
   - **Defense:** On page load and following ticket creation, the client queries `/api/v1/facilities`. The frontend iterates through the SVG room elements matching data-room attributes and applies CSS status classes based on the highest-severity unresolved ticket logged against that location.
 
@@ -306,27 +314,20 @@ Slide generators must follow these exact design variables:
 - **Sub-title:** Real-Time Operational Telemetry for University Leadership
 
 ### 2. Layout and Visual Geometry
-- **Layout:** Asymmetric 60/40 layout.
-  - Left 60%: High-resolution screenshot of the Maintenance Analytics Dashboard (`maintenance-analytics.png`).
-  - Right 40%: Key Performance Indicator (KPI) cards and operational insight breakdown.
+- **Layout:** High-resolution screenshot of the Maintenance Analytics Dashboard followed by structured analytical modules and KPI definitions.
 - Visual framing: KPI summary metrics along the top right, followed by analytical method explanations.
 
-### 3. Typography and Styling
+### 3. Visual Media and Asset Integration
+
+![Figure 6: CampusPulse Analytics Dashboard with Real-Time KPIs, Resolution Charting, and SLA Leaderboard](docs/screenshots/maintenance-analytics.png)
+*Figure 6: Executive Analytics Dashboard displaying live KPI stat cards, 7-day resolution trends, category distribution doughnut, and SLA compliance rankings.*
+
+### 4. Typography and Styling
 - Metric numbers: 32pt bold, dark blue `#1e3a8a`.
 - KPI delta tags: 12pt bold with green/amber indicator pills.
 
-### 4. Visual Media and Asset Integration
-- **Main Image Asset:**
-  - Path: `docs/screenshots/maintenance-analytics.png`
-  - Caption: Figure 3: CampusPulse Analytics Dashboard with Real-Time KPIs, Resolution Charting, and SLA Leaderboard
-  - Highlight Overlays:
-    - Callout 1: Real-time KPI stat cards (Total Tickets, Open Work Orders, SLA Compliance Rate, MTTR)
-    - Callout 2: Chart.js resolution trend line chart and category distribution doughnut
-    - Callout 3: Department SLA Compliance Leaderboard with progress meters
-    - Callout 4: Hotspot incident table highlighting repeat failure locations
-
 ### 5. Exact Slide Content
-- **Telemetry Metrics (Right Column):**
+- **Telemetry Metrics:**
   - Total Tickets Logged: Full volume counter reflecting all recorded infrastructure events.
   - Mean Time to Resolution (MTTR): Calculated average time from ticket creation to verified resolution in hours.
   - Global SLA Compliance: Aggregate percentage of tickets resolved within mandated SLA limits.
@@ -338,7 +339,7 @@ Slide generators must follow these exact design variables:
   - Preventive Maintenance Triggers: Automatic detection of equipment that breaches failure frequency thresholds.
 
 ### 6. Presenter Script (Spoken Monologue, 90 seconds)
-"Operational data without actionable visualization is useless to university leadership. Slide 7 demonstrates the CampusPulse Analytics Dashboard. At the top, executive KPI cards immediately answer critical operational questions: what is our global SLA compliance rate, how many unresolved work orders are active right now, and what is our campus-wide Mean Time to Resolution? Below the KPI strip, Chart.js renders two analytical perspectives: a 7-day workload trend line showing ticket creation versus resolution pace, and a category distribution doughnut highlighting where maintenance load concentrates. Notice the Department SLA Compliance table in the bottom left. It computes compliance percentages for Electrical, Plumbing, HVAC, and Carpentry directly from our SQL view. Facilities exhibiting more than two active complaints appear on the Hotspot table, giving leadership concrete data on which campus assets require complete replacement rather than continued short-term patching."
+"Operational data without actionable visualization is useless to university leadership. Slide 7 demonstrates the CampusPulse Analytics Dashboard shown in Figure 6. At the top, executive KPI cards immediately answer critical operational questions: what is our global SLA compliance rate, how many unresolved work orders are active right now, and what is our campus-wide Mean Time to Resolution? Below the KPI strip, Chart.js renders two analytical perspectives: a 7-day workload trend line showing ticket creation versus resolution pace, and a category distribution doughnut highlighting where maintenance load concentrates. Notice the Department SLA Compliance table in the bottom left. It computes compliance percentages for Electrical, Plumbing, HVAC, and Carpentry directly from our SQL view. Facilities exhibiting more than two active complaints appear on the Hotspot table, giving leadership concrete data on which campus assets require complete replacement rather than continued short-term patching."
 
 ### 7. Anticipated Committee Questions and Prepared Defenses
 - **Question:** How does the platform handle time zone discrepancies when calculating SLA deadlines?
@@ -355,15 +356,16 @@ Slide generators must follow these exact design variables:
 - **Sub-title:** Robustness, Concurrency, and Automated Testing
 
 ### 2. Layout and Visual Geometry
-- **Layout:** Three-column engineering highlight cards over an automated test verification banner.
+- **Layout:** Three-column engineering highlight cards over an automated test verification screenshot.
 - Card 1: Zero-Server SQLite Storage & WAL Concurrency.
 - Card 2: SLA Computation & State Machine Verification.
 - Card 3: Multi-Stage Docker Architecture & Security.
-- Bottom Banner: 100% Passing Automated API Test Suite results.
+- Visual Asset: Terminal screenshot of the 100% passing test suite.
 
-### 3. Typography and Styling
-- Code blocks in monospace JetBrains Mono, `#1e293b` background with syntax highlighting.
-- Green checkmark badges for verified test assertions.
+### 3. Visual Media and Asset Integration
+
+![Figure 7: CampusPulse 100% Passing Automated API Test Suite](docs/screenshots/test-suite-execution.png)
+*Figure 7: Terminal output of the automated Jest/Supertest integration test suite confirming 8/8 test suites passing.*
 
 ### 4. Exact Slide Content
 - **Column 1: On-Disk SQLite Concurrency**
@@ -375,7 +377,7 @@ Slide generators must follow these exact design variables:
   - Automated SLA deadline calculation upon ticket insertion: `sla_deadline = datetime(now, '+' || sla_hours || ' hours')`.
   - Immutable audit ledger: Every update writes state changes and user IDs to `ticket_audit_logs`.
 - **Column 3: Containerization & Deployment**
-  - Multi-stage Dockerfile separating compilation tools from lightweight Alpine runtime.
+  - Clean Dockerfile packaging Node 20 LTS runtime with compiled SQLite bindings.
   - Single-command orchestration via `Makefile` (`make up`, `make test`, `make down`).
   - Persistent named volume (`campuspulse-data`) protects SQLite database across container recycles.
 - **Bottom Banner: Verification & Quality Assurance**
@@ -384,7 +386,7 @@ Slide generators must follow these exact design variables:
   - Response Time: Sub-15ms average latency for core REST API read endpoints.
 
 ### 5. Presenter Script (Spoken Monologue, 100 seconds)
-"Engineering rigor separates an academic prototype from production-ready software. On this slide, we summarize three key engineering decisions. First, following syllabus requirements, we configured on-disk SQLite with Write-Ahead Logging and a 5-second busy timeout. This allows analytical queries to execute without blocking incoming ticket submissions from students. Second, we enforced a strict state machine with immutable audit logging. A ticket cannot skip from open to closed without logging who performed the work and recording intermediate state in `ticket_audit_logs`. Third, our deployment uses a multi-stage Dockerfile that discards C++ compilation tools after building native SQLite modules, producing a lightweight Alpine image. As shown in the bottom banner, our automated integration test suite exercises all REST endpoints, validation constraints, and database views with 100% passing results."
+"Engineering rigor separates an academic prototype from production-ready software. On this slide, we summarize three key engineering decisions. First, following syllabus requirements, we configured on-disk SQLite with Write-Ahead Logging and a 5-second busy timeout. This allows analytical queries to execute without blocking incoming ticket submissions from students. Second, we enforced a strict state machine with immutable audit logging. A ticket cannot skip from open to closed without logging who performed the work and recording intermediate state in `ticket_audit_logs`. Third, our deployment uses Docker orchestration that packages the Node.js runtime and compiled SQLite bindings into an isolated container. As shown in Figure 7, our automated integration test suite exercises all REST endpoints, validation constraints, and database views with 100% passing results."
 
 ### 6. Anticipated Committee Questions and Prepared Defenses
 - **Question:** How do you guarantee database consistency if the Docker container is forcibly killed?
@@ -433,25 +435,23 @@ Slide generators must follow these exact design variables:
 
 ---
 
-## Slide Asset Checklist and Visual Mapping Matrix
+## Slide Asset Visual Mapping Matrix
 
-| Slide # | Slide Title | Key Visual Asset / Screenshot | Relative Workspace Path |
-|---------|-------------|-------------------------------|-------------------------|
-| Slide 1 | Title and Overview | Institutional Header & Stack Badges | `public/favicon.ico` |
-| Slide 2 | Problem Statement & Motivation | Operational Impact Comparison Matrix | Table Graphic |
-| Slide 3 | Proposed Solution & Architecture | 4-Step Incident Lifecycle Flowchart | Vector Diagram |
-| Slide 4 | System Architecture & Tech Stack | 3-Tier Layered Architecture Diagram | Vector Diagram |
-| Slide 5 | Database Design & 3NF Schema | Relational Schema & 3NF ERD | Database Diagram |
-| Slide 6 | Key Features: Portal & Queue | Student Portal & Work Orders Queue | `docs/screenshots/student-portal.png`, `docs/screenshots/work-orders-queue.png` |
-| Slide 7 | Maintenance Analytics | Executive KPI & SLA Dashboard | `docs/screenshots/maintenance-analytics.png` |
-| Slide 8 | Engineering Highlights & Tests | Test Execution & Concurrency Specs | Monospace Code Blocks |
-| Slide 9 | Future Scope & Conclusion | 4-Phase Roadmap & GitHub Repository | Milestone Timeline |
+| Slide # | Slide Title | Figure | Embedded Screenshot File | Location in Repo |
+|:---:|---|:---:|---|---|
+| **Slide 3** | Solution Architecture | Figure 1 | `workflow-pipeline.png` | `docs/screenshots/workflow-pipeline.png` |
+| **Slide 4** | System Architecture | Figure 2 | `system-architecture.png` | `docs/screenshots/system-architecture.png` |
+| **Slide 5** | Database Schema & ERD | Figure 3 | `database-schema-erd.png` | `docs/screenshots/database-schema-erd.png` |
+| **Slide 6** | Student Reporting Portal | Figure 4 | `student-portal.png` | `docs/screenshots/student-portal.png` |
+| **Slide 6** | Work Orders Queue | Figure 5 | `work-orders-queue.png` | `docs/screenshots/work-orders-queue.png` |
+| **Slide 7** | Maintenance Analytics | Figure 6 | `maintenance-analytics.png` | `docs/screenshots/maintenance-analytics.png` |
+| **Slide 8** | Test Suite Verification | Figure 7 | `test-suite-execution.png` | `docs/screenshots/test-suite-execution.png` |
 
 ---
 
 ## Instructions for Automated Slide Generator Agents
 
-When compiling this specification into slides (e.g., Marp Markdown, Reveal.js HTML, Deckset, or PowerPoint):
+When compiling this specification into presentation decks:
 1. **Never truncate or invent bullet points.** Use the exact phrasing provided under `Exact Slide Content`.
 2. **Embed screenshots with absolute or relative paths** matching `docs/screenshots/<file>.png`.
 3. **Respect design tokens:** Maintain `#1e3a8a` as primary accent, `#f8fafc` as card backing, and `#0f172a` for high-contrast headlines.
