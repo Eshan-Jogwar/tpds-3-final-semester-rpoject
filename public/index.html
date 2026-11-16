@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CampusPulse — Student Grievance & Facility Portal</title>
-  <!-- Bootstrap 5 CSS -->
+  <!-- Bootstrap 5.3 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -35,30 +35,44 @@
             <a class="nav-link" href="/analytics.html"><i class="bi bi-graph-up-arrow me-1"></i> Executive BI Dashboard</a>
           </li>
           <li class="nav-item ms-lg-2">
-            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
-              <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> System Live
-            </span>
+            <button class="btn btn-sm btn-outline-light d-flex align-items-center gap-1" id="themeToggleBtn" type="button" title="Toggle Dark/Light Mode">
+              <i class="bi bi-moon-stars" id="themeIcon"></i>
+              <span class="d-lg-none ms-1">Toggle Theme</span>
+            </button>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="py-4 bg-white border-bottom">
+  <!-- Hero Section (Cleaned up, non-redundant) -->
+  <section class="py-4 border-bottom bg-body-tertiary">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-md-8">
-          <h1 class="h3 fw-bold mb-1">Campus Facility & Grievance Portal</h1>
-          <p class="text-muted mb-0">Report infrastructure issues, broken equipment, or safety concerns with instant tracking.</p>
+        <div class="col-md-7">
+          <div class="d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill bg-primary-subtle text-primary border border-primary-subtle small fw-semibold mb-2">
+            <i class="bi bi-broadcast"></i> Campus Facility Redressal System
+          </div>
+          <h1 class="h3 fw-bold mb-1">Student & Faculty Grievance Portal</h1>
+          <p class="text-muted mb-0">Report infrastructure faults, track resolution status by UUID, and inspect facility availability.</p>
         </div>
-        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-          <a href="#track-section" class="btn btn-outline-primary btn-sm me-2">
-            <i class="bi bi-search me-1"></i> Track Existing Ticket
-          </a>
-          <a href="#lodge-section" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus-circle me-1"></i> Lodge Grievance
-          </a>
+        <div class="col-md-5 text-md-end mt-3 mt-md-0">
+          <div class="d-inline-flex gap-3 text-start bg-body p-2 px-3 rounded-3 border">
+            <div>
+              <div class="small text-muted">Average MTTR</div>
+              <div class="fw-bold text-success fs-5 mb-0">&lt; 24 hrs</div>
+            </div>
+            <div class="vr"></div>
+            <div>
+              <div class="small text-muted">SLA Compliance</div>
+              <div class="fw-bold text-primary fs-5 mb-0">100%</div>
+            </div>
+            <div class="vr"></div>
+            <div>
+              <div class="small text-muted">System State</div>
+              <div class="fw-bold text-success fs-5 mb-0"><i class="bi bi-check-circle-fill" style="font-size: 0.9rem;"></i> Live</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -82,21 +96,23 @@
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link rounded-pill px-3" id="facilities-tab" data-bs-toggle="pill" data-bs-target="#facilities-section" type="button" role="tab">
-            <i class="bi bi-buildings me-1"></i> Campus Facilities Status
+            <i class="bi bi-buildings me-1"></i> Campus Facilities Directory
           </button>
         </li>
       </ul>
 
       <div class="tab-content" id="portalTabContent">
 
-        <!-- TAB 1: LODGE GRIEVANCE FORM -->
+        <!-- TAB 1: LODGE GRIEVANCE FORM (Enhanced 2-Column Layout) -->
         <div class="tab-pane fade show active" id="lodge-section" role="tabpanel">
-          <div class="row justify-content-center">
+          <div class="row g-4">
+            
+            <!-- Left Form Column -->
             <div class="col-lg-8">
               <div class="custom-card p-4">
                 <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
                   <h2 class="h5 fw-bold mb-0"><i class="bi bi-file-earmark-plus text-primary me-2"></i>Report an Issue</h2>
-                  <span class="badge bg-light text-secondary border">Course Demo: 5th Sem CSD</span>
+                  <span class="badge bg-light text-secondary border">TPDS-III Capstone</span>
                 </div>
 
                 <form id="grievanceForm" novalidate>
@@ -154,7 +170,7 @@
                       <input type="radio" class="btn-check" name="urgencyRadio" id="urgencyCritical" value="critical" autocomplete="off">
                       <label class="btn btn-outline-dark" for="urgencyCritical"><i class="bi bi-fire me-1"></i> Critical</label>
                     </div>
-                    <small class="text-muted mt-1 d-block">Critical urgency alerts estate safety managers within 15 minutes.</small>
+                    <small class="text-muted mt-1 d-block">Critical urgency alerts estate safety managers immediately.</small>
                   </div>
 
                   <!-- Description -->
@@ -168,16 +184,28 @@
                     <div class="invalid-feedback">Description must be at least 10 characters long.</div>
                   </div>
 
-                  <!-- Optional Image Attachment -->
+                  <!-- Enhanced Drag-and-Drop Photo Upload Dropzone (Phase 2) -->
                   <div class="mb-4">
-                    <label for="ticketImage" class="form-label fw-semibold">Attach Photo Reference (Optional)</label>
-                    <input class="form-control" type="text" id="ticketImage" placeholder="https://images.unsplash.com/... or paste image URL">
-                    <small class="text-muted">Paste a URL representing the equipment or damage.</small>
+                    <label class="form-label fw-semibold">Attach Photo Reference (Optional)</label>
+                    <div class="dropzone-container" id="dropzoneContainer">
+                      <input type="file" id="fileInput" accept="image/*" class="d-none">
+                      <div id="dropzonePrompt">
+                        <i class="bi bi-cloud-arrow-up text-primary fs-2 d-block mb-1"></i>
+                        <span class="fw-semibold small d-block">Drag & drop photo here or click to browse</span>
+                        <small class="text-muted">PNG, JPG, or WebP up to 5MB</small>
+                      </div>
+                      <div id="dropzonePreview" class="dropzone-preview d-none mt-2">
+                        <img id="previewImg" src="" alt="Photo preview" class="img-fluid border shadow-sm">
+                        <button type="button" id="removePhotoBtn" class="dropzone-remove-btn" title="Remove Photo">&times;</button>
+                      </div>
+                    </div>
+                    <!-- Hidden field storing base64 or URL -->
+                    <input type="hidden" id="ticketImage">
                   </div>
 
                   <!-- Action Buttons -->
                   <div class="d-flex justify-content-end gap-2">
-                    <button type="reset" class="btn btn-light px-4">Reset Form</button>
+                    <button type="reset" class="btn btn-light px-4" id="btnResetForm">Reset Form</button>
                     <button type="button" id="btnPreviewSubmit" class="btn btn-primary px-4">
                       <i class="bi bi-eye me-1"></i> Review & Submit
                     </button>
@@ -186,6 +214,92 @@
                 </form>
               </div>
             </div>
+
+            <!-- Right Sidebar Column (Phase 2 Layout Balance) -->
+            <div class="col-lg-4">
+              
+              <!-- Quick SLA Estimates -->
+              <div class="custom-card p-3 mb-3">
+                <h3 class="h6 fw-bold mb-2"><i class="bi bi-stopwatch text-primary me-2"></i>Estimated Resolution SLAs</h3>
+                <ul class="list-group list-group-flush small">
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span>⚡ Electrical Outages</span>
+                    <span class="badge bg-primary-subtle text-primary rounded-pill">Within 12 hrs</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span>💻 IT & Workstation Wi-Fi</span>
+                    <span class="badge bg-primary-subtle text-primary rounded-pill">Within 4 hrs</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span>🚰 Plumbing & Water Leakage</span>
+                    <span class="badge bg-primary-subtle text-primary rounded-pill">Within 8 hrs</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span>🚨 Safety & Structural</span>
+                    <span class="badge bg-danger-subtle text-danger rounded-pill">Immediate (&lt; 2 hrs)</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Campus Help & Emergency Hotlines -->
+              <div class="custom-card p-3 mb-3">
+                <h3 class="h6 fw-bold mb-2"><i class="bi bi-telephone-inbound text-danger me-2"></i>Emergency Hotlines</h3>
+                <div class="d-flex align-items-center gap-2 mb-2 p-2 bg-body-tertiary rounded">
+                  <i class="bi bi-shield-exclamation text-danger fs-4"></i>
+                  <div class="small">
+                    <strong>Campus Security Desk</strong>
+                    <div class="text-muted">Ext: 100 / 020-2569-8000</div>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center gap-2 mb-2 p-2 bg-body-tertiary rounded">
+                  <i class="bi bi-heart-pulse text-danger fs-4"></i>
+                  <div class="small">
+                    <strong>Campus Health Center</strong>
+                    <div class="text-muted">Ext: 104 (24/7 Ambulance)</div>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center gap-2 p-2 bg-body-tertiary rounded">
+                  <i class="bi bi-headset text-primary fs-4"></i>
+                  <div class="small">
+                    <strong>Estate Supervisor (Ramesh K.)</strong>
+                    <div class="text-muted">Ext: 108 / ramesh.estate@campus.edu</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FAQ Accordion -->
+              <div class="custom-card p-3">
+                <h3 class="h6 fw-bold mb-2"><i class="bi bi-question-circle text-primary me-2"></i>Help & Redressal FAQs</h3>
+                <div class="accordion accordion-flush" id="faqAccordion">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed p-2 small fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        How do I track my ticket?
+                      </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body p-2 small text-muted">
+                        Every ticket generates a 36-character UUID upon submission. Save this code or copy it to the "Track Ticket Status" tab anytime.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed p-2 small fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Can I cancel a lodged grievance?
+                      </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                      <div class="accordion-body p-2 small text-muted">
+                        Contact the estate manager via Ext 108 or specify in the ticket tracking drawer.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
           </div>
         </div>
 
@@ -196,7 +310,7 @@
               <div class="custom-card p-4 mb-4">
                 <h2 class="h5 fw-bold mb-3"><i class="bi bi-search text-primary me-2"></i>Track Your Ticket</h2>
                 <div class="input-group mb-3">
-                  <span class="input-group-text bg-white"><i class="bi bi-qr-code-scan"></i></span>
+                  <span class="input-group-text bg-body"><i class="bi bi-qr-code-scan"></i></span>
                   <input type="text" class="form-control" id="searchUuidInput" placeholder="Enter 36-character Ticket UUID (e.g. c9b4a1f2-7e3d-...)">
                   <button class="btn btn-primary px-4" id="btnTrackTicket" type="button">Track</button>
                 </div>
@@ -224,13 +338,13 @@
 
                 <div class="row g-3 mb-4">
                   <div class="col-sm-6">
-                    <div class="p-3 bg-light rounded">
+                    <div class="p-3 bg-body-tertiary rounded">
                       <div class="text-muted small">Location</div>
                       <div id="resLocation" class="fw-semibold">Building & Room</div>
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    <div class="p-3 bg-light rounded">
+                    <div class="p-3 bg-body-tertiary rounded">
                       <div class="text-muted small">Category</div>
                       <div id="resCategory" class="fw-semibold">Electrical</div>
                     </div>
@@ -239,7 +353,12 @@
 
                 <div class="mb-4">
                   <h4 class="h6 fw-bold">Description</h4>
-                  <p id="resDescription" class="text-secondary bg-light p-3 rounded mb-0"></p>
+                  <p id="resDescription" class="text-secondary bg-body-tertiary p-3 rounded mb-0"></p>
+                </div>
+
+                <div id="resPhotoContainer" class="mb-4 d-none">
+                  <h4 class="h6 fw-bold">Attached Photo</h4>
+                  <img id="resPhotoImg" src="" alt="Attached photo" class="img-fluid rounded border" style="max-height: 250px;">
                 </div>
 
                 <!-- Timeline -->
@@ -314,7 +433,7 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION CONTAINER (Module 2 Requirement) -->
+  <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
     <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="d-flex">
