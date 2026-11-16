@@ -6,3 +6,10 @@ data/*.db
 data/*.db-wal
 data/*.db-shm
 !data/.gitkeep
+
+# Python virtual environments & bytecode
+presentation/.venv/
+.venv/
+venv/
+__pycache__/
+*.pyc
