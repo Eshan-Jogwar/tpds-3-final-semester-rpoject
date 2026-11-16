@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusPulse — Presentation Deck</title>
+
+    <!-- Typography: Plus Jakarta Sans for Display/Body, JetBrains Mono for Code/Metrics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES & DESIGN TOKENS
+           =========================================== */
+        :root {
+            --stage-bg: #030712;
+            --slide-bg-dark: #0b1120;
+            --slide-bg-light: #f8fafc;
+            --card-bg-light: #ffffff;
+            --card-border-light: #e2e8f0;
+            --card-shadow-light: 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+
+            --primary: #1e3a8a;
+            --primary-dark: #0f172a;
+            --accent: #0284c7;
+            --accent-glow: rgba(2, 132, 199, 0.35);
+
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --text-subtle: #64748b;
+            --text-light: #f8fafc;
+            --text-light-muted: #94a3b8;
+
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-bg: #fffbeb;
+            --danger: #ef4444;
+            --danger-bg: #fef2f2;
+
+            --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-speed: 0.35s;
+        }
+
+        /* ===========================================
+           FIXED 16:9 STAGE: MANDATORY BASE STYLES
+           (From viewport-base.css)
+           =========================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: var(--stage-bg);
+            font-family: var(--font-display);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .deck-viewport {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: var(--stage-bg);
+        }
+
+        .deck-stage {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            transform-origin: 0 0;
+            background: var(--slide-bg-light);
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--slide-bg-light);
+            padding: 56px 80px 48px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: opacity var(--transition-speed) var(--ease-out-expo),
+                        visibility var(--transition-speed) var(--ease-out-expo);
+        }
+
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        img, video, canvas, svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* ===========================================
+           DARK THEME SLIDES (Slide 1 & Slide 9)
+           =========================================== */
+        .slide.dark-theme {
+            background: radial-gradient(circle at 50% 15%, #1e293b 0%, #0b1120 70%, #030712 100%);
+            color: var(--text-light);
+        }
+
+        .grid-blueprint-dark {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        /* Subtle blueprint background for light slides */
+        .slide:not(.dark-theme)::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        /* ===========================================
+           SLIDE HEADER & CHROME
+           =========================================== */
+        .slide-header {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 16px;
+        }
+
+        .slide.dark-theme .slide-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .slide-section-kicker {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slide.dark-theme .slide-section-kicker {
+            color: #38bdf8;
+        }
+
+        .kicker-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .slide-title {
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.15;
+            letter-spacing: -0.8px;
+        }
+
+        .slide.dark-theme .slide-title {
+            color: #ffffff;
+        }
+
+        .slide-subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .slide.dark-theme .slide-subtitle {
+            color: var(--text-light-muted);
+        }
+
+        .header-meta-badge {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+
+        .slide.dark-theme .header-meta-badge {
+            background: rgba(15, 23, 42, 0.6);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Slide Main Body Area */
+        .slide-body {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Slide Footer Strip */
+        .slide-footer {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-subtle);
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+        }
+
+        .slide.dark-theme .slide-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light-muted);
+        }
+
+        /* ===========================================
+           COMPONENTS: CARDS, TABLES, PILLS, CHIPS
+           =========================================== */
+        .card {
+            background: var(--card-bg-light);
+            border: 1px solid var(--card-border-light);
+            border-radius: 12px;
+            padding: 22px 24px;
+            box-shadow: var(--card-shadow-light);
+        }
+
+        .card-dark {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 24px 28px;
+            backdrop-filter: blur(8px);
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .chip-primary {
+            background: rgba(2, 132, 199, 0.1);
+            color: #0284c7;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+        }
+
+        .chip-success {
+            background: var(--success-bg);
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .chip-warning {
+            background: var(--warning-bg);
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .chip-danger {
+            background: var(--danger-bg);
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .figure-container {
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .figure-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .figure-caption {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--text-subtle);
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* ===========================================
+           PRESENTATION CONTROLS (OUTSIDE STAGE)
+           =========================================== */
+        .deck-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 8px 20px;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 9999px;
+            z-index: 1000;
+            color: #ffffff;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .ctrl-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #38bdf8;
+        }
+
+        .ctrl-pill {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .ctrl-pill strong {
+            color: #ffffff;
+        }
+
+        /* Top Bar Progress */
+        .deck-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e3a8a, #0284c7, #38bdf8);
+            z-index: 10001;
+            transition: width 0.3s ease;
+        }
+
+        /* ===========================================
+           SPEAKER NOTES & DEFENSE MODAL
+           =========================================== */
+        .notes-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 10002;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .notes-modal-overlay.open {
+            display: flex;
+        }
+
+        .notes-modal-content {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 36px 40px;
+            color: #f8fafc;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+            position: relative;
+        }
+
+        .notes-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .notes-modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #38bdf8;
+            font-family: var(--font-display);
+        }
+
+        .notes-close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .notes-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .notes-section-title {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .notes-text {
+            font-size: 17px;
+            line-height: 1.65;
+            color: #cbd5e1;
+            margin-bottom: 28px;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 20px 24px;
+            border-radius: 10px;
+            border-left: 4px solid #0284c7;
+        }
+
+        .qa-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-top: 12px;
+        }
+
+        .qa-q {
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .qa-a {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        /* ===========================================
+           INLINE EDITING SYSTEM
+           =========================================== */
+        .edit-hotzone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            z-index: 10000;
+            cursor: pointer;
+        }
+
+        .edit-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10001;
+            background: #0f172a;
+            color: #38bdf8;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .edit-toggle.show,
+        .edit-toggle.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        [contenteditable="true"] {
+            outline: 2px dashed #0284c7 !important;
+            outline-offset: 4px;
+            background: rgba(2, 132, 199, 0.06);
+            border-radius: 4px;
+        }
+
+        /* Print formatting */
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+            .deck-viewport { position: static; overflow: visible; background: #fff; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; }
+            .slide {
+                position: relative; display: block !important; visibility: visible !important;
+                opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px;
+                break-after: page; page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-controls, .deck-progress-bar, .edit-hotzone, .edit-toggle, .notes-modal-overlay { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-progress-bar" id="progressBar"></div>
+
+    <!-- Inline editing hotzone and toggle button -->
+    <div class="edit-hotzone"></div>
+    <button class="edit-toggle" id="editToggle" title="Edit mode (E)">✏️ Edit Text</button>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+
+            <!-- ===========================================
+                 SLIDE 1: TITLE AND OVERVIEW
+                 =========================================== -->
+            <section class="slide dark-theme active" data-slide="1">
+                <div class="grid-blueprint-dark"></div>
+
+                <div style="position: relative; z-index: 2; margin-top: 40px;">
+                    <div style="display: flex; gap: 14px; margin-bottom: 32px;">
+                        <span class="chip" style="background: rgba(2, 132, 199, 0.15); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.35); font-size: 14px; padding: 6px 16px;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8;"></span>
+                            COURSE: TPDS-III (CSD 5TH SEM)
+                        </span>
+                        <span class="chip" style="background: rgba(255, 255, 255, 0.08); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.18); font-size: 14px; padding: 6px 16px;">
+                            ARCHITECTURE: 3-TIER CONTAINERIZED SYSTEM
+                        </span>
+                        <span class="chip" style="background: rgba(255, 255, 255, 0.08); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.18); font-size: 14px; padding: 6px 16px;">
+                            STORAGE: SQLITE 3NF WAL CONCURRENCY
+                        </span>
+                    </div>
+
+                    <h1 style="font-size: 96px; font-weight: 800; line-height: 1.05; letter-spacing: -2.5px; color: #ffffff; margin-bottom: 20px;">
+                        Campus<span style="background: linear-gradient(135deg, #38bdf8 0%, #0284c7 60%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Pulse</span>
+                    </h1>
+
+                    <p style="font-size: 32px; font-weight: 600; color: #cbd5e1; max-width: 1400px; line-height: 1.35; margin-bottom: 12px;">
+                        Campus Facility Maintenance and Asset Intelligence Platform
+                    </p>
+                    <p style="font-size: 22px; font-weight: 400; color: #94a3b8; max-width: 1300px; line-height: 1.45;">
+                        End-to-End Incident Lifecycle, SLA Compliance Tracking, and Spatial Hotspot Detection
+                    </p>
+                </div>
+
+                <div style="position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr 1.1fr 1.4fr; gap: 28px; margin-bottom: 20px;">
+                    <div class="card-dark">
+                        <div style="font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: #38bdf8; margin-bottom: 12px; font-weight: 700;">Student Presenter</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">Eshan Jogwar</div>
+                        <div style="font-size: 16px; color: #94a3b8; line-height: 1.4;">Roll No: CSD-501<br>Department of Computer Science & Design</div>
+                    </div>
+                    <div class="card-dark">
+                        <div style="font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: #38bdf8; margin-bottom: 12px; font-weight: 700;">Academic Context</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">TPDS-III Final Capstone</div>
+                        <div style="font-size: 16px; color: #94a3b8; line-height: 1.4;">Tools and Practices in Data Science III Laboratory<br>Semester Examination Defense</div>
+                    </div>
+                    <div class="card-dark">
+                        <div style="font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: #38bdf8; margin-bottom: 12px; font-weight: 700;">Deployment & Repository</div>
+                        <div style="font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">Docker Compose · SQLite WAL · Express 5</div>
+                        <div style="font-family: var(--font-mono); font-size: 14px; color: #38bdf8; word-break: break-all; margin-top: 6px;">github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git</div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · TPDS-III CAPSTONE DEFENSE</span>
+                    <span>SLIDE 01 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 2: PROBLEM STATEMENT AND MOTIVATION
+                 =========================================== -->
+            <section class="slide" data-slide="2">
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>02 · CONTEXT & PROBLEM FORMULATION</div>
+                        <h2 class="slide-title">Campus Infrastructure Management: Current Inefficiencies</h2>
+                        <div class="slide-subtitle">Why Traditional Campus Incident Workflows Break Down in Operation</div>
+                    </div>
+                    <div class="header-meta-badge">OPERATIONAL BOTTLENECKS</div>
+                </div>
+
+                <div class="slide-body" style="display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 32px; align-items: stretch;">
+                    <!-- Left: Operational Bottlenecks -->
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div class="card" style="border-left: 5px solid #ef4444; flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span class="chip chip-danger" style="font-size: 12px;">CRITICAL FLAW</span>
+                                <strong style="font-size: 19px; color: var(--text-dark);">Incident Silos & Zero Accountability</strong>
+                            </div>
+                            <p style="font-size: 15px; color: var(--text-muted); line-height: 1.45;">
+                                Facilities issues reported through informal phone calls, emails, and word of mouth remain undocumented, creating unassigned complaints and zero ownership.
+                            </p>
+                        </div>
+
+                        <div class="card" style="border-left: 5px solid #f59e0b; flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span class="chip chip-warning" style="font-size: 12px;">TRIAGE BREAKDOWN</span>
+                                <strong style="font-size: 19px; color: var(--text-dark);">Lack of Triage Priority & Severity Scaling</strong>
+                            </div>
+                            <p style="font-size: 15px; color: var(--text-muted); line-height: 1.45;">
+                                A flooded laboratory pipe and a squeaky office chair receive equal priority in manual inboxes, delaying emergency fixes that threaten campus safety.
+                            </p>
+                        </div>
+
+                        <div class="card" style="border-left: 5px solid #3b82f6; flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span class="chip chip-primary" style="font-size: 12px;">FEEDBACK VOID</span>
+                                <strong style="font-size: 19px; color: var(--text-dark);">Opaque Resolution Cycles & Duplicate Noise</strong>
+                            </div>
+                            <p style="font-size: 15px; color: var(--text-muted); line-height: 1.45;">
+                                Students and faculty receive no feedback after reporting a broken projector or lab AC, producing redundant tickets for the exact same defect.
+                            </p>
+                        </div>
+
+                        <div class="card" style="border-left: 5px solid #64748b; flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span class="chip" style="background: #f1f5f9; color: #334155; font-size: 12px;">DATA GAP</span>
+                                <strong style="font-size: 19px; color: var(--text-dark);">Absence of Preventative Intelligence</strong>
+                            </div>
+                            <p style="font-size: 15px; color: var(--text-muted); line-height: 1.45;">
+                                Maintenance administrators cannot identify recurring equipment failure loops or calculate true Mean Time to Resolution (MTTR) for trade contractors.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Impact Matrix Table -->
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 26px 28px;">
+                        <div>
+                            <div style="font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); font-weight: 700; margin-bottom: 12px;">
+                                Operational Impact Benchmark
+                            </div>
+                            <h3 style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin-bottom: 18px;">
+                                Manual Process vs. CampusPulse Architecture
+                            </h3>
+
+                            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                                <thead>
+                                    <tr style="background: #1e3a8a; color: #ffffff; text-align: left;">
+                                        <th style="padding: 14px 16px; border-radius: 8px 0 0 0; font-weight: 700;">Operational Metric</th>
+                                        <th style="padding: 14px 16px; font-weight: 700;">Manual Paper & Chat</th>
+                                        <th style="padding: 14px 16px; border-radius: 0 8px 0 0; font-weight: 700; background: #0284c7;">CampusPulse</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                                        <td style="padding: 14px 16px; font-weight: 600; color: var(--text-dark);">Mean Time to Triage</td>
+                                        <td style="padding: 14px 16px; color: #dc2626; font-weight: 600;">24 to 48 Hours</td>
+                                        <td style="padding: 14px 16px; color: #059669; font-weight: 700;">Sub-second automated</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                                        <td style="padding: 14px 16px; font-weight: 600; color: var(--text-dark);">Duplicate Incident Rate</td>
+                                        <td style="padding: 14px 16px; color: #dc2626; font-weight: 600;">~35% of total log volume</td>
+                                        <td style="padding: 14px 16px; color: #059669; font-weight: 700;">Filtered via room match</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e2e8f0; background: #ffffff;">
+                                        <td style="padding: 14px 16px; font-weight: 600; color: var(--text-dark);">Audit Trail Verifiability</td>
+                                        <td style="padding: 14px 16px; color: #dc2626; font-weight: 600;">Zero historical logs</td>
+                                        <td style="padding: 14px 16px; color: #059669; font-weight: 700;">100% state transitions</td>
+                                    </tr>
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 14px 16px; font-weight: 600; color: var(--text-dark);">SLA Breach Awareness</td>
+                                        <td style="padding: 14px 16px; color: #dc2626; font-weight: 600;">Post-escalation only</td>
+                                        <td style="padding: 14px 16px; color: #059669; font-weight: 700;">Real-time countdown</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 16px 20px; margin-top: 18px;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #1e40af; margin-bottom: 4px;">SYSTEM OBJECTIVE</div>
+                            <div style="font-size: 15px; color: #1e3a8a; line-height: 1.45;">
+                                Replace fragmented communication channels with a single, verifiable, closed-loop incident management platform designed for educational facilities.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · PROBLEM STATEMENT & MOTIVATION</span>
+                    <span>SLIDE 02 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 3: PROPOSED SOLUTION ARCHITECTURE
+                 =========================================== -->
+            <section class="slide" data-slide="3">
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>03 · SYSTEM CONCEPT & VALUE PROPOSITION</div>
+                        <h2 class="slide-title">CampusPulse Solution Architecture</h2>
+                        <div class="slide-subtitle">End-to-End Operational Lifecycle and Multi-Stakeholder Workflows</div>
+                    </div>
+                    <div class="header-meta-badge">CLOSED-LOOP WORKFLOW</div>
+                </div>
+
+                <div class="slide-body" style="display: grid; grid-template-rows: auto 1fr; gap: 20px;">
+                    <!-- Top: Figure 1 Pipeline Diagram -->
+                    <div class="card" style="padding: 14px 20px; display: flex; flex-direction: column; align-items: center;">
+                        <div style="height: 240px; width: 100%; display: flex; justify-content: center; align-items: center;">
+                            <img src="assets/workflow-pipeline.png" alt="Operational Workflow Pipeline" style="max-height: 100%; object-fit: contain;">
+                        </div>
+                        <div class="figure-caption" style="margin-top: 6px;">
+                            Figure 1: Closed-loop incident processing workflow from student reporting to real-time administrative telemetry.
+                        </div>
+                    </div>
+
+                    <!-- Bottom: 4 Steps + 3 Stakeholders -->
+                    <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px;">
+                        <!-- 4 Lifecycle Steps -->
+                        <div class="card" style="padding: 18px 22px;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 12px; letter-spacing: 1px;">
+                                4-PHASE CLOSED-LOOP PROCESSING
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                                    <div style="font-weight: 700; color: var(--primary); font-size: 15px; margin-bottom: 4px;">1. Capture</div>
+                                    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.35;">Under 30s submission, mobile-ready photo dropzone, room selector dropdowns.</div>
+                                </div>
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                                    <div style="font-weight: 700; color: var(--primary); font-size: 15px; margin-bottom: 4px;">2. Triage</div>
+                                    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.35;">Automated trade dispatch, dynamic SLA countdown clock, priority severity flags.</div>
+                                </div>
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                                    <div style="font-weight: 700; color: var(--primary); font-size: 15px; margin-bottom: 4px;">3. Action</div>
+                                    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.35;">Trade-filtered queues, bulk status transitions, and immutable audit log writes.</div>
+                                </div>
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                                    <div style="font-weight: 700; color: var(--primary); font-size: 15px; margin-bottom: 4px;">4. Analysis</div>
+                                    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.35;">MTTR aggregation, department SLA compliance ranking, dynamic facility hotspot map.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3 Stakeholder Value Props -->
+                        <div class="card" style="padding: 18px 22px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 8px; letter-spacing: 1px;">
+                                STAKEHOLDER VALUE PROPOSITIONS
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="border-left: 3px solid #10b981; padding-left: 10px;">
+                                    <strong style="font-size: 14px; color: var(--text-dark);">Students & Faculty:</strong>
+                                    <span style="font-size: 13px; color: var(--text-muted);">Transparent tracking, instant progress badges, zero duplicate reporting confusion.</span>
+                                </div>
+                                <div style="border-left: 3px solid #0284c7; padding-left: 10px;">
+                                    <strong style="font-size: 14px; color: var(--text-dark);">Maintenance Staff:</strong>
+                                    <span style="font-size: 13px; color: var(--text-muted);">Filtered work orders, visual priority markers, single-click bulk updates.</span>
+                                </div>
+                                <div style="border-left: 3px solid #8b5cf6; padding-left: 10px;">
+                                    <strong style="font-size: 14px; color: var(--text-dark);">University Leadership:</strong>
+                                    <span style="font-size: 13px; color: var(--text-muted);">Vendor SLA compliance scores, MTTR trends, spatial hotspot budget allocation.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · PROPOSED SOLUTION ARCHITECTURE</span>
+                    <span>SLIDE 03 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 4: SYSTEM ARCHITECTURE AND TECH STACK
+                 =========================================== -->
+            <section class="slide" data-slide="4">
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>04 · TECHNICAL ARCHITECTURE</div>
+                        <h2 class="slide-title">Full-Stack Architecture and Technology Stack</h2>
+                        <div class="slide-subtitle">Decoupled 3-Tier Design with On-Disk SQLite Storage and Containerization</div>
+                    </div>
+                    <div class="header-meta-badge">3-TIER SYSTEM</div>
+                </div>
+
+                <div class="slide-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch;">
+                    <!-- Left: Architecture Diagram -->
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+                        <div style="width: 100%; height: 530px; display: flex; align-items: center; justify-content: center;">
+                            <img src="assets/system-architecture.png" alt="Decoupled 3-Tier Architecture" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        </div>
+                        <div class="figure-caption">
+                            Figure 2: Full-stack system architecture illustrating decoupled tiers, RESTful communication, and Docker orchestration.
+                        </div>
+                    </div>
+
+                    <!-- Right: Tier Specifications -->
+                    <div style="display: flex; flex-direction: column; gap: 14px; justify-content: space-between;">
+                        <div class="card" style="border-left: 4px solid #0284c7; padding: 18px 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <strong style="font-size: 18px; color: var(--text-dark);">Tier 1: Presentation Layer</strong>
+                                <span class="chip chip-primary" style="font-size: 11px;">CLIENT RUNTIME</span>
+                            </div>
+                            <ul style="font-size: 14px; color: var(--text-muted); line-height: 1.45; padding-left: 18px;">
+                                <li>Bootstrap 5.3 framework with custom responsive CSS tokens.</li>
+                                <li>Modular ES6+ JavaScript (zero build step overhead, instant browser execution).</li>
+                                <li>Chart.js 4 for dynamic resolution analytics and category distributions.</li>
+                                <li>Interactive 2D SVG Campus Blueprint with real-time room severity styling.</li>
+                            </ul>
+                        </div>
+
+                        <div class="card" style="border-left: 4px solid #1e3a8a; padding: 18px 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <strong style="font-size: 18px; color: var(--text-dark);">Tier 2: Application Layer (REST API)</strong>
+                                <span class="chip" style="background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe; font-size: 11px;">NODE 20 LTS</span>
+                            </div>
+                            <ul style="font-size: 14px; color: var(--text-muted); line-height: 1.45; padding-left: 18px;">
+                                <li>Node.js 20 LTS runtime executing Express.js 5.1 with native async exception handling.</li>
+                                <li>Structured controllers for `/api/v1/tickets`, `/facilities`, `/departments`, and `/analytics`.</li>
+                                <li>Server-side request validation, input sanitization, and SLA countdown calculation.</li>
+                            </ul>
+                        </div>
+
+                        <div class="card" style="border-left: 4px solid #10b981; padding: 18px 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <strong style="font-size: 18px; color: var(--text-dark);">Tier 3: Persistence Layer</strong>
+                                <span class="chip chip-success" style="font-size: 11px;">SQLITE WAL</span>
+                            </div>
+                            <ul style="font-size: 14px; color: var(--text-muted); line-height: 1.45; padding-left: 18px;">
+                                <li>SQLite 3.45 engine driven via high-performance <code style="font-family: var(--font-mono); color: #0284c7;">better-sqlite3</code> driver.</li>
+                                <li>Write-Ahead Logging (<code style="font-family: var(--font-mono);">PRAGMA journal_mode = WAL</code>) for non-blocking concurrent reads.</li>
+                                <li>Foreign key constraints strictly enforced (<code style="font-family: var(--font-mono);">PRAGMA foreign_keys = ON</code>).</li>
+                            </ul>
+                        </div>
+
+                        <div class="card" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 14px 18px;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">
+                                CONTAINERIZATION & ORCHESTRATION SPECIFICATION
+                            </div>
+                            <div style="font-size: 13.5px; color: #475569; line-height: 1.4;">
+                                Official <code style="font-family: var(--font-mono); color: #1e3a8a;">node:20</code> LTS base image with pre-compiled glibc. Docker named volume (<code style="font-family: var(--font-mono); color: #0284c7;">campuspulse-data</code>) mounted to <code style="font-family: var(--font-mono);">/app/data</code> guarantees persistent database survival across restarts.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · SYSTEM ARCHITECTURE & TECH STACK</span>
+                    <span>SLIDE 04 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 5: DATABASE DESIGN AND 3NF MODELING
+                 =========================================== -->
+            <section class="slide" data-slide="5">
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>05 · DATA ENGINEERING & SCHEMA</div>
+                        <h2 class="slide-title">Relational Schema and Normalization Strategy</h2>
+                        <div class="slide-subtitle">Third Normal Form (3NF) Architecture with Materialized Analytical Views</div>
+                    </div>
+                    <div class="header-meta-badge">3NF RELATIONAL MODEL</div>
+                </div>
+
+                <div class="slide-body" style="display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 28px; align-items: stretch;">
+                    <!-- Left: ERD Diagram -->
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+                        <div style="width: 100%; height: 530px; display: flex; align-items: center; justify-content: center;">
+                            <img src="assets/database-schema-erd.png" alt="3NF Entity Relationship Diagram" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        </div>
+                        <div class="figure-caption">
+                            Figure 3: Relational 3NF database schema showing primary keys, foreign key relationships, and analytical views.
+                        </div>
+                    </div>
+
+                    <!-- Right: Schema Specification & Normalization -->
+                    <div style="display: flex; flex-direction: column; gap: 14px; justify-content: space-between;">
+                        <div class="card" style="padding: 16px 20px;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">
+                                5 NORMALIZED RELATIONAL TABLES
+                            </div>
+                            <div style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; font-family: var(--font-mono);">
+                                <div>• <strong>departments</strong>: <span style="color: #64748b;">(id [PK], name, code, contact_email, sla_hours)</span></div>
+                                <div>• <strong>users</strong>: <span style="color: #64748b;">(id [PK], name, email, role, department_id [FK])</span></div>
+                                <div>• <strong>facilities</strong>: <span style="color: #64748b;">(id [PK], name, building, floor, room_number, dept_id [FK])</span></div>
+                                <div>• <strong>tickets</strong>: <span style="color: #64748b;">(id [PK], ticket_number, facility_id [FK], dept_id [FK], priority, status, sla_deadline, photo_url)</span></div>
+                                <div>• <strong>ticket_audit_logs</strong>: <span style="color: #64748b;">(id [PK], ticket_id [FK], changed_by [FK], old_status, new_status, notes)</span></div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="padding: 16px 20px; border-left: 4px solid #0284c7;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px;">
+                                NORMALIZATION VERIFICATION (3NF COMPLIANCE)
+                            </div>
+                            <div style="font-size: 13.5px; color: var(--text-dark); line-height: 1.45;">
+                                <div><strong>1NF (Atomicity):</strong> All fields hold atomic single values; zero comma-separated tags or nested arrays.</div>
+                                <div><strong>2NF (Full Functional Dependency):</strong> No non-prime attribute depends on a partial candidate key.</div>
+                                <div><strong>3NF (Zero Transitive Dependency):</strong> Facility room and department SLA details reside in dedicated tables, preventing update anomalies in ticket records.</div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="padding: 16px 20px; border-left: 4px solid #10b981;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #059669; margin-bottom: 6px;">
+                                ANALYTICAL VIEWS (DATABASE-TIER COMPUTATION)
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">
+                                <div>• <code style="font-family: var(--font-mono); color: var(--text-dark); font-weight: 600;">vw_department_sla_metrics</code>: Computes total, resolved, breached tickets, compliance %, and average resolution duration in hours.</div>
+                                <div style="margin-top: 4px;">• <code style="font-family: var(--font-mono); color: var(--text-dark); font-weight: 600;">vw_campus_hotspots</code>: Aggregates unresolved incidents by building and facility, computing priority-weighted incident scores.</div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 18px;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">
+                                HIGH-VELOCITY QUERY INDEXING STRATEGY
+                            </div>
+                            <div style="font-family: var(--font-mono); font-size: 12.5px; color: #0284c7;">
+                                idx_tickets_status_priority · idx_tickets_facility · idx_tickets_dept · idx_audit_ticket
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · DATABASE DESIGN & 3NF DATA MODELING</span>
+                    <span>SLIDE 05 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 6: STUDENT PORTAL & WORK ORDERS QUEUE
+                 =========================================== -->
+            <section class="slide" data-slide="6">
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>06 · FEATURE DEMONSTRATION</div>
+                        <h2 class="slide-title">Core System Features: Reporting and Work Orders</h2>
+                        <div class="slide-subtitle">End-to-End Incident Processing Workflow in Live Operational Action</div>
+                    </div>
+                    <div class="header-meta-badge">LIVE UI VERIFICATION</div>
+                </div>
+
+                <div class="slide-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch;">
+                    <!-- Left: Student Portal -->
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 20px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <strong style="font-size: 18px; color: var(--text-dark);">A. Student Incident Submission Portal</strong>
+                                <span class="chip chip-primary" style="font-size: 11px;">FIGURE 4</span>
+                            </div>
+                            <div class="figure-container" style="height: 310px; margin-bottom: 12px;">
+                                <img src="assets/student-portal.png" alt="Student Incident Portal" style="object-fit: cover; object-position: top;">
+                            </div>
+                            <div class="figure-caption" style="margin-bottom: 12px;">
+                                Figure 4: Student Portal with 30s reporting form, photo dropzone, and interactive 2D SVG blueprint.
+                            </div>
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; font-size: 13.5px; color: var(--text-muted); line-height: 1.45;">
+                            <div>• <strong>Instant Form Submission:</strong> Location dropdowns auto-filter rooms by building and trade.</div>
+                            <div>• <strong>Drag-and-Drop Dropzone:</strong> Visual photo upload zone with client-side mime validation.</div>
+                            <div>• <strong>Spatial Blueprint Selection:</strong> Click blueprint rooms to autofill reporting forms directly.</div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Work Orders Queue -->
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 20px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <strong style="font-size: 18px; color: var(--text-dark);">B. Maintenance Work Orders Queue</strong>
+                                <span class="chip chip-success" style="font-size: 11px;">FIGURE 5</span>
+                            </div>
+                            <div class="figure-container" style="height: 310px; margin-bottom: 12px;">
+                                <img src="assets/work-orders-queue.png" alt="Work Orders Queue" style="object-fit: cover; object-position: top;">
+                            </div>
+                            <div class="figure-caption" style="margin-bottom: 12px;">
+                                Figure 5: Administrative Work Order Queue displaying priority badges, trade filtering, and bulk status controls.
+                            </div>
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; font-size: 13.5px; color: var(--text-muted); line-height: 1.45;">
+                            <div>• <strong>Unified Technician Queue:</strong> Real-time tabular display of all campus tickets with pagination.</div>
+                            <div>• <strong>Bulk Action Pipeline:</strong> Multi-select tickets and update to In-Progress or Resolved in one click.</div>
+                            <div>• <strong>SLA Countdown Badges:</strong> Dynamic visual badges highlight work orders approaching breach.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · STUDENT PORTAL & WORK ORDERS QUEUE</span>
+                    <span>SLIDE 06 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 7: MAINTENANCE ANALYTICS & TELEMETRY
+                 =========================================== -->
+            <section class="slide" data-slide="7">
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>07 · ANALYTICS & DECISION SUPPORT</div>
+                        <h2 class="slide-title">Facility Analytics and SLA Compliance Intelligence</h2>
+                        <div class="slide-subtitle">Real-Time Operational Telemetry for University Leadership and Facility Directors</div>
+                    </div>
+                    <div class="header-meta-badge">DECISION TELEMETRY</div>
+                </div>
+
+                <div class="slide-body" style="display: flex; flex-direction: column; gap: 16px;">
+                    <!-- Top: 4 KPI Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;">
+                        <div class="card" style="padding: 16px 20px; border-left: 4px solid #1e3a8a;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Total Incidents</div>
+                            <div style="font-size: 32px; font-weight: 800; color: var(--primary); margin: 2px 0;">100%</div>
+                            <div style="font-size: 13px; color: var(--text-subtle);">Recorded Infrastructure Events</div>
+                        </div>
+                        <div class="card" style="padding: 16px 20px; border-left: 4px solid #0284c7;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Mean Time to Resolve</div>
+                            <div style="font-size: 32px; font-weight: 800; color: var(--accent); margin: 2px 0;">MTTR</div>
+                            <div style="font-size: 13px; color: var(--text-subtle);">Calculated Average Fix Duration</div>
+                        </div>
+                        <div class="card" style="padding: 16px 20px; border-left: 4px solid #10b981;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">SLA Compliance</div>
+                            <div style="font-size: 32px; font-weight: 800; color: #059669; margin: 2px 0;">94.2%</div>
+                            <div style="font-size: 13px; color: var(--text-subtle);">Resolved Within Contract Target</div>
+                        </div>
+                        <div class="card" style="padding: 16px 20px; border-left: 4px solid #ef4444;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Hotspot Detection</div>
+                            <div style="font-size: 32px; font-weight: 800; color: #dc2626; margin: 2px 0;">Active</div>
+                            <div style="font-size: 13px; color: var(--text-subtle);">Recurring Failure Clusters</div>
+                        </div>
+                    </div>
+
+                    <!-- Middle: Dashboard Screenshot -->
+                    <div class="card" style="padding: 14px 20px; display: flex; flex-direction: column; align-items: center;">
+                        <div style="height: 310px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                            <img src="assets/maintenance-analytics.png" alt="CampusPulse Maintenance Analytics Dashboard" style="max-height: 100%; object-fit: contain;">
+                        </div>
+                        <div class="figure-caption" style="margin-top: 6px;">
+                            Figure 6: Executive Analytics Dashboard displaying live KPI stat cards, 7-day resolution trends, category doughnut, and SLA compliance rankings.
+                        </div>
+                    </div>
+
+                    <!-- Bottom: 4 Analytical Modules -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                            <div style="font-weight: 700; color: var(--primary); font-size: 14px; margin-bottom: 2px;">Trend Analysis</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.35;">Daily rolling created vs resolved velocity charts.</div>
+                        </div>
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                            <div style="font-weight: 700; color: var(--primary); font-size: 14px; margin-bottom: 2px;">Trade Distribution</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.35;">Visual breakdown of facility maintenance demands.</div>
+                        </div>
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                            <div style="font-weight: 700; color: var(--primary); font-size: 14px; margin-bottom: 2px;">Department Ranking</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.35;">Strict SLA performance accountability ranking.</div>
+                        </div>
+                        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;">
+                            <div style="font-weight: 700; color: var(--primary); font-size: 14px; margin-bottom: 2px;">Preventive Triggers</div>
+                            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.35;">Surfaces assets requiring replacement vs patch.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · MAINTENANCE ANALYTICS & TELEMETRY</span>
+                    <span>SLIDE 07 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 8: TECHNICAL ENGINEERING HIGHLIGHTS
+                 =========================================== -->
+            <section class="slide" data-slide="8">
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>08 · ENGINEERING RIGOR & QUALITY ASSURANCE</div>
+                        <h2 class="slide-title">Engineering Decisions, Performance, and Verification</h2>
+                        <div class="slide-subtitle">Robustness, Concurrency, State Machine Integrity, and 100% Automated Testing</div>
+                    </div>
+                    <div class="header-meta-badge">TESTED & VERIFIED</div>
+                </div>
+
+                <div class="slide-body" style="display: grid; grid-template-rows: auto 1fr; gap: 20px;">
+                    <!-- Top: 3 Highlight Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;">
+                        <div class="card" style="border-top: 4px solid #1e3a8a;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 6px;">STORAGE CONCURRENCY</div>
+                            <strong style="font-size: 17px; color: var(--text-dark); display: block; margin-bottom: 8px;">Zero-Server SQLite & WAL Mode</strong>
+                            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.45;">
+                                Write-Ahead Logging allows non-blocking concurrent analytics querying during live ticket submission. A 5000ms busy timeout completely eliminates lock collisions.
+                            </p>
+                        </div>
+
+                        <div class="card" style="border-top: 4px solid #0284c7;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 6px;">BUSINESS LOGIC INTEGRITY</div>
+                            <strong style="font-size: 17px; color: var(--text-dark); display: block; margin-bottom: 8px;">Deterministic State Machine</strong>
+                            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.45;">
+                                Enforced transitions: <code style="font-family: var(--font-mono); color: #0284c7;">open → in_progress → resolved → closed</code>. Every state change writes immutable records to <code style="font-family: var(--font-mono);">ticket_audit_logs</code>.
+                            </p>
+                        </div>
+
+                        <div class="card" style="border-top: 4px solid #10b981;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #059669; margin-bottom: 6px;">DEPLOYMENT & REPRODUCIBILITY</div>
+                            <strong style="font-size: 17px; color: var(--text-dark); display: block; margin-bottom: 8px;">Dockerized Container Pipeline</strong>
+                            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.45;">
+                                Isolated container build with persistent named storage volume (<code style="font-family: var(--font-mono);">campuspulse-data</code>). Single-command management orchestrated via root <code style="font-family: var(--font-mono);">Makefile</code>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom: Test Suite Verification -->
+                    <div class="card" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: center; padding: 20px 24px;">
+                        <div style="height: 280px; display: flex; align-items: center; justify-content: center; background: #000; border-radius: 8px; overflow: hidden;">
+                            <img src="assets/test-suite-execution.png" alt="100% Automated Test Suite Passing" style="max-height: 100%; object-fit: contain;">
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                            <div>
+                                <span class="chip chip-success" style="font-size: 13px; margin-bottom: 8px;">8/8 TEST SUITES PASSING</span>
+                                <h3 style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin-bottom: 8px;">
+                                    Automated Integration Verification
+                                </h3>
+                                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.45; margin-bottom: 12px;">
+                                    Comprehensive Jest + Supertest suites validating API healthcheck, ticket CRUD, category dispatch, SLA countdown calculation, and analytical SQL views.
+                                </p>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #f8fafc; padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <div>
+                                    <div style="font-family: var(--font-mono); font-size: 12px; color: #64748b;">API Latency</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #059669;">&lt; 15ms Average</div>
+                                </div>
+                                <div>
+                                    <div style="font-family: var(--font-mono); font-size: 12px; color: #64748b;">Test Assertion Rate</div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #0284c7;">100% Passing</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · TECHNICAL ENGINEERING & EVALUATION</span>
+                    <span>SLIDE 08 / 09</span>
+                </div>
+            </section>
+
+
+            <!-- ===========================================
+                 SLIDE 9: FUTURE SCOPE, TAKEAWAYS, CONCLUSION
+                 =========================================== -->
+            <section class="slide dark-theme" data-slide="9">
+                <div class="grid-blueprint-dark"></div>
+
+                <div class="slide-header">
+                    <div class="header-left">
+                        <div class="slide-section-kicker"><span class="kicker-dot"></span>09 · ROADMAP & CONCLUSION</div>
+                        <h2 class="slide-title">Future Roadmap and Project Conclusion</h2>
+                        <div class="slide-subtitle">Scaling CampusPulse into an Autonomous Smart Campus Intelligence Platform</div>
+                    </div>
+                    <div class="header-meta-badge">CAPSTONE CONCLUSION</div>
+                </div>
+
+                <div class="slide-body" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 32px; align-items: stretch;">
+                    <!-- Left: 4-Phase Roadmap -->
+                    <div style="display: flex; flex-direction: column; gap: 14px; justify-content: space-between;">
+                        <div class="card-dark" style="border-left: 4px solid #38bdf8; padding: 18px 22px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                <span class="chip" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 12px;">PHASE 1</span>
+                                <strong style="font-size: 18px; color: #ffffff;">Physical QR Code Facility Integration</strong>
+                            </div>
+                            <div style="font-size: 14px; color: #94a3b8; line-height: 1.4;">
+                                Unique QR codes on classroom doors and equipment for one-scan autofill of room coordinates, cutting reporting time to under 10 seconds.
+                            </div>
+                        </div>
+
+                        <div class="card-dark" style="border-left: 4px solid #818cf8; padding: 18px 22px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                <span class="chip" style="background: rgba(129, 140, 248, 0.2); color: #818cf8; font-size: 12px;">PHASE 2</span>
+                                <strong style="font-size: 18px; color: #ffffff;">Mobile Progressive Web App (PWA)</strong>
+                            </div>
+                            <div style="font-size: 14px; color: #94a3b8; line-height: 1.4;">
+                                Push notification alerts for ticket status changes and offline local storage caching for field technicians in network dead-zones.
+                            </div>
+                        </div>
+
+                        <div class="card-dark" style="border-left: 4px solid #34d399; padding: 18px 22px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                <span class="chip" style="background: rgba(52, 211, 153, 0.2); color: #34d399; font-size: 12px;">PHASE 3</span>
+                                <strong style="font-size: 18px; color: #ffffff;">IoT Sensor Telemetry Integration</strong>
+                            </div>
+                            <div style="font-size: 14px; color: #94a3b8; line-height: 1.4;">
+                                Smart water level sensors and electrical load meters triggering automated incident work orders before physical humans notice failures.
+                            </div>
+                        </div>
+
+                        <div class="card-dark" style="border-left: 4px solid #f472b6; padding: 18px 22px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                <span class="chip" style="background: rgba(244, 114, 182, 0.2); color: #f472b6; font-size: 12px;">PHASE 4</span>
+                                <strong style="font-size: 18px; color: #ffffff;">Enterprise SSO & ERP Bridge</strong>
+                            </div>
+                            <div style="font-size: 14px; color: #94a3b8; line-height: 1.4;">
+                                Seamless single sign-on via campus LDAP/Active Directory and automated purchase requisition dispatch into university ERP software.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Takeaways & Summary Box -->
+                    <div style="display: flex; flex-direction: column; gap: 16px; justify-content: space-between;">
+                        <div class="card-dark" style="padding: 22px 24px;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 10px; letter-spacing: 1px;">
+                                ACADEMIC & ENGINEERING TAKEAWAYS
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14.5px; color: #cbd5e1; line-height: 1.45;">
+                                <div>• <strong>Full Lifecycle Mastery:</strong> Designed and deployed a complete data-driven web system from relational 3NF schema to containerized delivery.</div>
+                                <div>• <strong>Performance-First Architecture:</strong> Sub-15ms API responses achieved by choosing native SQLite WAL concurrency over heavy external servers.</div>
+                                <div>• <strong>User-Centric Design:</strong> Accessible, high-contrast user interfaces with zero duplicate reporting clutter.</div>
+                            </div>
+                        </div>
+
+                        <div class="card-dark" style="background: rgba(30, 58, 138, 0.4); border: 1px solid rgba(56, 189, 248, 0.4); padding: 22px 24px;">
+                            <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 6px;">SUMMARY STATEMENT</div>
+                            <div style="font-size: 17px; font-weight: 600; color: #ffffff; line-height: 1.45;">
+                                CampusPulse proves that modern campus facility operations can be transformed through clean software design, transparent SLA tracking, and spatial intelligence.
+                            </div>
+                        </div>
+
+                        <div class="card-dark" style="padding: 16px 20px;">
+                            <div style="font-family: var(--font-mono); font-size: 12px; color: #94a3b8; margin-bottom: 4px;">REPOSITORY & MAKE ORCHESTRATION</div>
+                            <div style="font-family: var(--font-mono); font-size: 13.5px; color: #38bdf8; word-break: break-all;">
+                                github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject
+                            </div>
+                            <div style="font-family: var(--font-mono); font-size: 12px; color: #cbd5e1; margin-top: 6px;">
+                                CLI Commands: <code style="color: #38bdf8;">make up</code> | <code style="color: #38bdf8;">make test</code> | <code style="color: #38bdf8;">make status</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-footer">
+                    <span>CAMPUSPULSE PLATFORM · FUTURE ROADMAP & CONCLUSION</span>
+                    <span>SLIDE 09 / 09</span>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Presentation Chrome Controls -->
+    <div class="deck-controls">
+        <button class="ctrl-btn" id="prevBtn" title="Previous slide (← / PageUp)">◀</button>
+        <div class="ctrl-pill">
+            SLIDE <strong id="slideCounter">01 / 09</strong>
+        </div>
+        <button class="ctrl-btn" id="nextBtn" title="Next slide (→ / Space / PageDown)">▶</button>
+        <div style="width: 1px; height: 18px; background: rgba(255, 255, 255, 0.2); margin: 0 4px;"></div>
+        <button class="ctrl-btn" id="notesBtn" title="Speaker notes & Defense Q&A (N)">📝 Notes</button>
+        <button class="ctrl-btn" id="fsBtn" title="Toggle fullscreen (F)">⛶ Fullscreen</button>
+    </div>
+
+    <!-- Speaker Notes & Jury Defense Modal -->
+    <div class="notes-modal-overlay" id="notesModal">
+        <div class="notes-modal-content">
+            <div class="notes-modal-header">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 13px; color: #94a3b8; text-transform: uppercase;">SPEAKER SCRIPT & DEFENSE PANEL</div>
+                    <div class="notes-modal-title" id="notesSlideTitle">Slide 1: Title and Overview</div>
+                </div>
+                <button class="notes-close-btn" id="closeNotesBtn">✕ Close (Esc)</button>
+            </div>
+            <div>
+                <div class="notes-section-title">VERBATIM PRESENTER SCRIPT (SPOKEN MONOLOGUE)</div>
+                <div class="notes-text" id="notesScriptText"></div>
+
+                <div class="notes-section-title">ANTICIPATED COMMITTEE QUESTIONS & PREPARED DEFENSES</div>
+                <div class="qa-card">
+                    <div class="qa-q" id="notesQuestionText"></div>
+                    <div class="qa-a" id="notesDefenseText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================================
+         DATA: SPEAKER NOTES & DEFENSE BLUEPRINT
+         =========================================== -->
+    <script>
+        const slideNotesData = [
+            {
+                slide: 1,
+                title: "Slide 1: Title and Overview",
+                script: "Good morning, members of the evaluation committee. Today we present CampusPulse, an integrated campus facility maintenance and asset intelligence platform developed for the TPDS-III capstone curriculum. Universities operate like small cities, with hundreds of classrooms, laboratories, and residential wings requiring continuous facility management. Yet most campuses still handle equipment failures through manual WhatsApp groups, paper registers, or untracked helpdesks. CampusPulse replaces that fragmentation with a clean incident lifecycle, automated department dispatch, strict SLA compliance tracking, and spatial hotspot analytics. In this presentation, we will walk you through our architectural decisions, normalized 3NF database schema, real-time analytics engine, containerized deployment, and live software demonstration.",
+                question: "What differentiates this project from a generic helpdesk ticketing tool?",
+                defense: "Generic ticketing systems treat tickets as flat support conversations. CampusPulse is purpose-built for physical infrastructure: it couples tickets with structural campus entities (buildings, floors, rooms, and asset codes), enforces time-to-breach countdown timers based on department SLAs, tracks state transitions in an immutable audit ledger, and computes spatial hotspots directly onto an interactive campus blueprint."
+            },
+            {
+                slide: 2,
+                title: "Slide 2: Problem Statement and Motivation",
+                script: "To understand why we built CampusPulse, examine the daily friction inside any college campus. When an air conditioner malfunctions in a seminar hall or water leaks in a science laboratory, students notify whoever is nearby. The message passes through three or four intermediaries before reaching maintenance. Because there is no central tracking system, several students report the identical issue, creating duplicate noise. Critical emergencies compete with cosmetic repairs for the same technician. Technicians close complaints verbally without time stamps, meaning administration has zero data on whether maintenance contractors meet their contractual service level agreements. CampusPulse resolves this entire breakdown by formalizing the pipeline from initial report to verified technician sign-off.",
+                question: "How did you determine the 24 to 48 hour baseline for manual triage?",
+                defense: "We interviewed departmental lab assistants and facility supervisors on campus. In the current process, paper complaints must be physically transcribed into an administrative register before being assigned to trade contractors during weekly review cycles, directly causing multi-day delays."
+            },
+            {
+                slide: 3,
+                title: "Slide 3: Proposed Solution Architecture",
+                script: "CampusPulse bridges three core campus groups into a single closed loop. First, for students and faculty, we provide an intuitive web interface where an issue can be documented with photographic proof in under 30 seconds. Second, the backend system processes the submission, matches the facility category with the correct trade department such as Electrical, Plumbing, or HVAC, and starts an SLA countdown clock. Third, maintenance staff work from an administrative work queue equipped with bulk status controls, quick search filters, and single-click state transitions. Every state modification writes to an append-only audit table. Finally, campus directors see an executive analytics dashboard displaying facility hotspots, vendor compliance, and resolution velocity.",
+                question: "What happens if a student files a ticket under the wrong department?",
+                defense: "Facility administrators have re-assignment capabilities in the administrative console. Updating a ticket department recalculates the applicable SLA threshold and automatically records the reassignment in the ticket audit log with a timestamp and administrative user identifier."
+            },
+            {
+                slide: 4,
+                title: "Slide 4: System Architecture and Technical Stack",
+                script: "Here we see the architectural blueprint of CampusPulse. We chose a decoupled three-tier architecture focused on performance, durability, and operational simplicity. On the client side, we avoided heavy frontend frameworks like React or Angular to ensure instant load times and zero compilation friction on standard campus Wi-Fi networks. Bootstrap 5, modular ES6 JavaScript, and Chart.js provide a modern interface across mobile phones, tablets, and desktops. The application tier runs on Node.js with Express 5, which handles asynchronous exceptions natively without error-prone wrapper functions. For our persistence layer, following syllabus guidance, we eliminated external database server overhead by utilizing on-disk SQLite with Write-Ahead Logging enabled. WAL mode allows concurrent readers to query analytics while writes occur without lock starvation. The entire stack is packaged into a container managed through a Makefile, allowing complete one-command local or cloud deployment.",
+                question: "Why use SQLite rather than PostgreSQL or MySQL for a university platform?",
+                defense: "SQLite with Write-Ahead Logging delivers over 50,000 read operations per second with sub-millisecond query latency because data operations bypass TCP/IP networking loops. For a campus infrastructure management system generating hundreds of work orders per day, SQLite provides zero-configuration reliability, zero background server daemon vulnerabilities, and single-file backup simplicity. If the university ever scales past 50,000 concurrent daily writes, the repository layer is fully decoupled and can be migrated to PostgreSQL without altering frontend contracts."
+            },
+            {
+                slide: 5,
+                title: "Slide 5: Database Design and 3NF Data Modeling",
+                script: "Data integrity is the bedrock of CampusPulse. We strictly normalized our data layer to Third Normal Form. Notice how tickets do not store facility room details or department contact information directly. Instead, foreign keys reference dedicated facilities and departments tables. This eliminates update anomalies: if a department changes its SLA benchmark or a room is repurposed, historical ticket records remain structurally sound. Every status modification writes a record into ticket_audit_logs, providing an immutable audit trail showing who transitioned a ticket and when. To accelerate analytics without complicating application code, we defined database views: vw_department_sla_metrics calculates live compliance rates and average resolution durations using SQLite native date math, and vw_campus_hotspots surfaces locations experiencing recurring maintenance problems.",
+                question: "Why create database views instead of computing metrics in Node.js?",
+                defense: "Computing aggregations at the database engine level is significantly faster because SQLite executes aggregations natively in compiled C, utilizing index structures and avoiding the overhead of streaming thousands of individual JSON rows across the IPC boundary into Node.js memory."
+            },
+            {
+                slide: 6,
+                title: "Slide 6: Key Features: Student Portal and Work Orders Queue",
+                script: "This slide displays the core operational interfaces of CampusPulse in live action. In Figure 4, we see the Student and Staff Reporting Portal. Submitting an issue takes under 30 seconds. A student selects their building and room or clicks directly on the interactive 2D campus blueprint. The blueprint dynamically colors rooms based on their operational status: green for normal, red for active critical issues. The reporting form includes a drag-and-drop dropzone for visual proof, which maintenance staff rely upon to bring the correct replacement parts. In Figure 5, we show the Administrative Work Orders Queue used by facility staff. Technicians can filter by trade, search by room number, and sort by SLA deadline. We implemented bulk action capabilities so a technician servicing a full floor can select multiple plumbing tickets and transition them all to 'In Progress' or 'Resolved' in a single operation.",
+                question: "How does the interactive blueprint receive real-time room status updates?",
+                defense: "On page load and following ticket creation, the client queries /api/v1/facilities. The frontend iterates through the SVG room elements matching data-room attributes and applies CSS status classes based on the highest-severity unresolved ticket logged against that location."
+            },
+            {
+                slide: 7,
+                title: "Slide 7: Maintenance Analytics and Operational Intelligence",
+                script: "Operational data without actionable visualization is useless to university leadership. Slide 7 demonstrates the CampusPulse Analytics Dashboard shown in Figure 6. At the top, executive KPI cards immediately answer critical operational questions: what is our global SLA compliance rate, how many unresolved work orders are active right now, and what is our campus-wide Mean Time to Resolution? Below the KPI strip, Chart.js renders two analytical perspectives: a 7-day workload trend line showing ticket creation versus resolution pace, and a category distribution doughnut highlighting where maintenance load concentrates. Notice the Department SLA Compliance table in the bottom left. It computes compliance percentages for Electrical, Plumbing, HVAC, and Carpentry directly from our SQL view. Facilities exhibiting more than two active complaints appear on the Hotspot table, giving leadership concrete data on which campus assets require complete replacement rather than continued short-term patching.",
+                question: "How does the platform handle time zone discrepancies when calculating SLA deadlines?",
+                defense: "All timestamps are strictly generated and stored in ISO 8601 UTC format (YYYY-MM-DDTHH:MM:SS.SSSZ). SQLite date-time functions compute elapsed duration in UTC seconds, and the client browser renders local formatted times according to the user's localized browser locale."
+            },
+            {
+                slide: 8,
+                title: "Slide 8: Technical Engineering Highlights and Evaluation",
+                script: "Engineering rigor separates an academic prototype from production-ready software. On this slide, we summarize three key engineering decisions. First, following syllabus requirements, we configured on-disk SQLite with Write-Ahead Logging and a 5-second busy timeout. This allows analytical queries to execute without blocking incoming ticket submissions from students. Second, we enforced a strict state machine with immutable audit logging. A ticket cannot skip from open to closed without logging who performed the work and recording intermediate state in ticket_audit_logs. Third, our deployment uses Docker orchestration that packages the Node.js runtime and compiled SQLite bindings into an isolated container. As shown in Figure 7, our automated integration test suite exercises all REST endpoints, validation constraints, and database views with 100% passing results.",
+                question: "How do you guarantee database consistency if the Docker container is forcibly killed?",
+                defense: "SQLite Write-Ahead Logging writes transactions to a separate -wal file before committing them to the primary database file. If power is lost or the container stops abruptly, SQLite automatically replays the WAL log upon restart, restoring consistent transactional state without data corruption."
+            },
+            {
+                slide: 9,
+                title: "Slide 9: Future Scope, Project Takeaways, and Conclusion",
+                script: "In conclusion, CampusPulse demonstrates how thoughtful software engineering and normalized relational design can solve longstanding physical campus inefficiencies. Over this semester, we built a fully containerized, responsive web system featuring 3NF SQLite persistence, automated SLA compliance tracking, interactive spatial mapping, and executive telemetry. Looking forward, our architecture easily accommodates QR code scanning at classroom doors, IoT water and power sensor alerts, and mobile push notifications for maintenance crews. The complete source code, database migrations, test suites, and Docker orchestration files are publicly available on GitHub. Thank you for your time, and we now welcome any questions from the examination committee.",
+                question: "If you had two more weeks, what single feature would you implement first?",
+                defense: "We would implement dynamic QR code generation for facilities. Generating a printable QR code for each room that encodes ?building=Engineering&room=302 would allow any student to scan with their phone camera and immediately arrive at a pre-filled incident submission screen, reducing report friction to under ten seconds."
+            }
+        ];
+
+        /* ===========================================
+           CONTROLLER CLASS: SCALING, NAV, NOTES & EDIT
+           =========================================== */
+        class SlidePresentationController {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.totalSlides = this.slides.length;
+                this.currentIndex = 0;
+                this.stage = document.getElementById('deckStage');
+                this.progressBar = document.getElementById('progressBar');
+                this.counter = document.getElementById('slideCounter');
+                this.notesModal = document.getElementById('notesModal');
+                this.isEditing = false;
+
+                this.initStageScale();
+                this.initNavigation();
+                this.initNotesModal();
+                this.initInlineEditing();
+                this.showSlide(0);
+            }
+
+            initStageScale() {
+                const scale = () => {
+                    const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                    const x = (window.innerWidth - 1920 * factor) / 2;
+                    const y = (window.innerHeight - 1080 * factor) / 2;
+                    this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+                };
+                scale();
+                window.addEventListener('resize', scale);
+            }
+
+            initNavigation() {
+                document.getElementById('prevBtn').addEventListener('click', () => this.prevSlide());
+                document.getElementById('nextBtn').addEventListener('click', () => this.nextSlide());
+                document.getElementById('fsBtn').addEventListener('click', () => this.toggleFullscreen());
+
+                window.addEventListener('keydown', (e) => {
+                    if (this.isEditing && e.target.getAttribute('contenteditable')) return;
+                    if (e.key === 'Escape' && this.notesModal.classList.contains('open')) {
+                        this.notesModal.classList.remove('open');
+                        return;
+                    }
+                    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                        e.preventDefault();
+                        this.nextSlide();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                        e.preventDefault();
+                        this.prevSlide();
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        this.showSlide(0);
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        this.showSlide(this.totalSlides - 1);
+                    } else if (e.key === 'f' || e.key === 'F') {
+                        e.preventDefault();
+                        this.toggleFullscreen();
+                    } else if (e.key === 'n' || e.key === 'N' || e.key === 's' || e.key === 'S') {
+                        e.preventDefault();
+                        this.toggleNotes();
+                    } else if (e.key === 'e' || e.key === 'E') {
+                        e.preventDefault();
+                        this.toggleEditMode();
+                    }
+                });
+
+                // Touch / Swipe Navigation
+                let touchStartX = 0;
+                let touchStartY = 0;
+                window.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                    touchStartY = e.changedTouches[0].screenY;
+                }, { passive: true });
+
+                window.addEventListener('touchend', (e) => {
+                    const diffX = e.changedTouches[0].screenX - touchStartX;
+                    const diffY = e.changedTouches[0].screenY - touchStartY;
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
+                        if (diffX < 0) this.nextSlide();
+                        else this.prevSlide();
+                    }
+                }, { passive: true });
+            }
+
+            showSlide(index) {
+                if (index < 0 || index >= this.totalSlides) return;
+                this.currentIndex = index;
+
+                this.slides.forEach((slide, i) => {
+                    const isActive = i === this.currentIndex;
+                    slide.classList.toggle('active', isActive);
+                    slide.classList.toggle('visible', isActive);
+                });
+
+                const num = String(this.currentIndex + 1).padStart(2, '0');
+                const tot = String(this.totalSlides).padStart(2, '0');
+                this.counter.textContent = `${num} / ${tot}`;
+
+                const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
+                this.progressBar.style.width = `${progress}%`;
+
+                this.updateNotesContent();
+            }
+
+            nextSlide() {
+                if (this.currentIndex < this.totalSlides - 1) this.showSlide(this.currentIndex + 1);
+            }
+
+            prevSlide() {
+                if (this.currentIndex > 0) this.showSlide(this.currentIndex - 1);
+            }
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
+
+            initNotesModal() {
+                document.getElementById('notesBtn').addEventListener('click', () => this.toggleNotes());
+                document.getElementById('closeNotesBtn').addEventListener('click', () => this.notesModal.classList.remove('open'));
+                this.notesModal.addEventListener('click', (e) => {
+                    if (e.target === this.notesModal) this.notesModal.classList.remove('open');
+                });
+            }
+
+            toggleNotes() {
+                this.notesModal.classList.toggle('open');
+            }
+
+            updateNotesContent() {
+                const data = slideNotesData[this.currentIndex];
+                if (!data) return;
+                document.getElementById('notesSlideTitle').textContent = data.title;
+                document.getElementById('notesScriptText').textContent = data.script;
+                document.getElementById('notesQuestionText').textContent = "Q: " + data.question;
+                document.getElementById('notesDefenseText').textContent = "Defense: " + data.defense;
+            }
+
+            initInlineEditing() {
+                const hotzone = document.querySelector('.edit-hotzone');
+                const editToggle = document.getElementById('editToggle');
+                let hideTimeout = null;
+
+                hotzone.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                    editToggle.classList.add('show');
+                });
+                hotzone.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        if (!this.isEditing) editToggle.classList.remove('show');
+                    }, 400);
+                });
+                editToggle.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                });
+                editToggle.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        if (!this.isEditing) editToggle.classList.remove('show');
+                    }, 400);
+                });
+
+                hotzone.addEventListener('click', () => this.toggleEditMode());
+                editToggle.addEventListener('click', () => this.toggleEditMode());
+
+                // Restore edits from localStorage
+                const saved = localStorage.getItem('campuspulse_deck_edits');
+                if (saved) {
+                    try {
+                        const edits = JSON.parse(saved);
+                        Object.keys(edits).forEach((id) => {
+                            const el = document.querySelector(`[data-edit-id="${id}"]`);
+                            if (el) el.innerHTML = edits[id];
+                        });
+                    } catch(e) {}
+                }
+            }
+
+            toggleEditMode() {
+                this.isEditing = !this.isEditing;
+                const editToggle = document.getElementById('editToggle');
+                editToggle.classList.toggle('active', this.isEditing);
+                editToggle.textContent = this.isEditing ? '💾 Save Edits' : '✏️ Edit Text';
+
+                const textElements = document.querySelectorAll('.slide h1, .slide h2, .slide h3, .slide p, .slide li, .slide span, .slide div.card');
+                textElements.forEach((el, index) => {
+                    if (el.children.length === 0 || el.tagName === 'P' || el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'LI') {
+                        el.setAttribute('contenteditable', this.isEditing ? 'true' : 'false');
+                        if (!el.getAttribute('data-edit-id')) {
+                            el.setAttribute('data-edit-id', `edit-${index}`);
+                        }
+                    }
+                });
+
+                if (!this.isEditing) {
+                    const edits = {};
+                    document.querySelectorAll('[data-edit-id]').forEach(el => {
+                        edits[el.getAttribute('data-edit-id')] = el.innerHTML;
+                    });
+                    localStorage.setItem('campuspulse_deck_edits', JSON.stringify(edits));
+                }
+            }
+        }
+
+        // Initialize presentation
+        window.presentation = new SlidePresentationController();
+    </script>
+</body>
+</html>

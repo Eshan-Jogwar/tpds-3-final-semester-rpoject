@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusPulse — Presentation Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --stage-bg: #000000;
+            --slide-bg: #ffffff;
+            --accent-blue: #2563eb;
+            --accent-electric: #0284c7;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --font-display: 'Manrope', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg); }
+        .deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+        .deck-stage {
+            position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+            overflow: hidden; transform-origin: 0 0; background: var(--slide-bg);
+        }
+        .slide {
+            position: absolute; inset: 0; width: 1920px; height: 1080px;
+            overflow: hidden; display: grid; grid-template-rows: 65% 35%;
+        }
+        .top-panel {
+            background: #ffffff; padding: 90px 120px 60px 120px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            position: relative;
+        }
+        .top-panel::after {
+            content: ''; position: absolute; bottom: 0; left: 120px; right: 120px;
+            height: 4px; background: var(--accent-blue);
+        }
+        .eyebrow {
+            font-family: var(--font-mono); font-size: 15px; font-weight: 600;
+            color: var(--accent-blue); letter-spacing: 1.5px; text-transform: uppercase;
+        }
+        h1.title {
+            font-family: var(--font-display); font-size: 88px; font-weight: 800;
+            line-height: 1.05; letter-spacing: -2px; color: var(--text-dark);
+            margin: 16px 0;
+        }
+        p.subtitle {
+            font-family: var(--font-display); font-size: 28px; font-weight: 500;
+            color: var(--text-muted); line-height: 1.4; max-width: 1350px;
+        }
+        .bottom-panel {
+            background: #0f172a; padding: 45px 120px;
+            display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 40px; align-items: center;
+        }
+        .meta-col { font-family: var(--font-display); }
+        .meta-title {
+            font-family: var(--font-mono); font-size: 13px; text-transform: uppercase;
+            letter-spacing: 1.5px; color: #38bdf8; margin-bottom: 8px; font-weight: 600;
+        }
+        .meta-val { font-size: 22px; font-weight: 700; color: #ffffff; margin-bottom: 4px; }
+        .meta-sub { font-size: 16px; color: #94a3b8; }
+        .code-link { font-family: var(--font-mono); font-size: 14px; color: #38bdf8; }
+    </style>
+</head>
+<body>
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            <section class="slide">
+                <div class="top-panel">
+                    <div class="eyebrow">TPDS-III Final Capstone Defense · 5th Sem B.Tech CSD</div>
+                    <div>
+                        <h1 class="title">CampusPulse Platform</h1>
+                        <p class="subtitle">An Automated Campus Incident Management, SLA Enforcement, and Facility Health Analytics Platform</p>
+                    </div>
+                </div>
+                <div class="bottom-panel">
+                    <div class="meta-col">
+                        <div class="meta-title">Presenter</div>
+                        <div class="meta-val">Eshan Jogwar</div>
+                        <div class="meta-sub">Roll No: CSD-501 · CSD Dept</div>
+                    </div>
+                    <div class="meta-col">
+                        <div class="meta-title">Academic Context</div>
+                        <div class="meta-val">Tools & Practices in Data Science III</div>
+                        <div class="meta-sub">Final Semester Capstone Evaluation</div>
+                    </div>
+                    <div class="meta-col">
+                        <div class="meta-title">Architecture & Code</div>
+                        <div class="meta-val">3-Tier SQLite WAL + Docker</div>
+                        <div class="code-link">github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        function scaleStage() {
+            const stage = document.getElementById('deckStage');
+            const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            const x = (window.innerWidth - 1920 * factor) / 2;
+            const y = (window.innerHeight - 1080 * factor) / 2;
+            stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        }
+        scaleStage();
+        window.addEventListener('resize', scaleStage);
+    </script>
+</body>
+</html>

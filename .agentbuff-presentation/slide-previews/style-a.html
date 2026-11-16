@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusPulse — Presentation Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --stage-bg: #030712;
+            --slide-bg: #0b1120;
+            --primary: #1e3a8a;
+            --accent: #0284c7;
+            --accent-glow: rgba(2, 132, 199, 0.35);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --font-display: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg); }
+        .deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+        .deck-stage {
+            position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+            overflow: hidden; transform-origin: 0 0; background: var(--slide-bg);
+        }
+        .slide {
+            position: absolute; inset: 0; width: 1920px; height: 1080px;
+            overflow: hidden; display: block; visibility: visible; opacity: 1;
+            background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0b1120 70%, #030712 100%);
+            padding: 96px 120px 80px 120px;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .grid-overlay {
+            position: absolute; inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+        .hero-top { position: relative; z-index: 2; }
+        .badge-strip { display: flex; gap: 14px; margin-bottom: 28px; }
+        .chip {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 18px; border-radius: 9999px; font-size: 15px; font-weight: 600;
+            font-family: var(--font-mono); letter-spacing: 0.5px;
+            background: rgba(2, 132, 199, 0.12); color: #38bdf8;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+        }
+        .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
+        h1.title {
+            font-family: var(--font-display); font-size: 92px; font-weight: 800;
+            line-height: 1.05; letter-spacing: -2px; color: #ffffff;
+            margin-bottom: 20px;
+        }
+        h1.title span {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 60%, #818cf8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        p.subtitle {
+            font-family: var(--font-display); font-size: 32px; font-weight: 500;
+            color: #cbd5e1; max-width: 1350px; line-height: 1.35; margin-bottom: 12px;
+        }
+        p.tagline {
+            font-family: var(--font-display); font-size: 22px; font-weight: 400;
+            color: var(--text-secondary); max-width: 1250px; line-height: 1.4;
+        }
+        .cards-bottom {
+            position: relative; z-index: 2;
+            display: grid; grid-template-columns: 1.1fr 1.1fr 1.4fr; gap: 28px;
+        }
+        .info-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(12px);
+            border-radius: 16px; padding: 26px 30px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease;
+        }
+        .info-card:hover { border-color: rgba(56, 189, 248, 0.4); }
+        .card-label {
+            font-family: var(--font-mono); font-size: 13px; text-transform: uppercase;
+            letter-spacing: 1.5px; color: #38bdf8; margin-bottom: 12px; font-weight: 600;
+        }
+        .card-main {
+            font-family: var(--font-display); font-size: 24px; font-weight: 700;
+            color: #ffffff; margin-bottom: 6px;
+        }
+        .card-sub {
+            font-family: var(--font-display); font-size: 16px; color: var(--text-secondary);
+            line-height: 1.45;
+        }
+        .code-pill {
+            display: inline-block; font-family: var(--font-mono); font-size: 14px;
+            color: #94a3b8; word-break: break-all; margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            <section class="slide">
+                <div class="grid-overlay"></div>
+                <div class="hero-top">
+                    <div class="badge-strip">
+                        <div class="chip"><span class="chip-dot"></span>COURSE: TPDS-III (CSD 5TH SEM)</div>
+                        <div class="chip">ARCHITECTURE: 3-TIER CONTAINERIZED SYSTEM</div>
+                        <div class="chip">STORAGE: SQLITE 3NF WAL CONCURRENCY</div>
+                    </div>
+                    <h1 class="title">Campus<span>Pulse</span></h1>
+                    <p class="subtitle">Campus Facility Maintenance and Asset Intelligence Platform</p>
+                    <p class="tagline">End-to-End Incident Lifecycle, SLA Compliance Tracking, and Spatial Hotspot Detection</p>
+                </div>
+                <div class="cards-bottom">
+                    <div class="info-card">
+                        <div>
+                            <div class="card-label">Presenter</div>
+                            <div class="card-main">Eshan Jogwar</div>
+                            <div class="card-sub">Roll No: CSD-501<br>Department of Computer Science & Design</div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div>
+                            <div class="card-label">Academic Context</div>
+                            <div class="card-main">TPDS-III Capstone</div>
+                            <div class="card-sub">Tools & Practices in Data Science III Laboratory<br>Final Semester Evaluation</div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div>
+                            <div class="card-label">Stack & Repository</div>
+                            <div class="card-main">Node 20 · SQLite WAL · Docker</div>
+                            <div class="code-pill">github.com/Eshan-Jogwar/tpds-3-final-semester-rpoject.git</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        function scaleStage() {
+            const stage = document.getElementById('deckStage');
+            const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            const x = (window.innerWidth - 1920 * factor) / 2;
+            const y = (window.innerHeight - 1080 * factor) / 2;
+            stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        }
+        scaleStage();
+        window.addEventListener('resize', scaleStage);
+    </script>
+</body>
+</html>
