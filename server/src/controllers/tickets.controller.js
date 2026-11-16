@@ -181,7 +181,7 @@ exports.createTicket = (req, res, next) => {
 
       const insertAudit = db.prepare(`
         INSERT INTO ticket_audit_logs (ticket_id, changed_by, old_status, new_status, remarks)
-        VALUES (?, ?, NULL, 'submitted', 'Grievance ticket lodged by student.')
+        VALUES (?, ?, NULL, 'submitted', 'Submitted by student.')
       `);
       insertAudit.run(ticketId, creatorId);
 
@@ -192,7 +192,7 @@ exports.createTicket = (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: 'Ticket lodged successfully.',
+      message: 'Request submitted successfully.',
       ticket_id: newTicketId,
       ticket_uuid: ticketUuid
     });

@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const urgency = document.querySelector('input[name="urgencyRadio"]:checked')?.value || 'medium';
 
     if (title.length < 3 || desc.length < 10 || !category || !facilityId) {
-      showToast('Please fill all required fields properly.', 'danger');
+      showToast('Please fill in all required fields.', 'danger');
       return;
     }
 
@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        showToast(`Grievance lodged! UUID: ${data.ticket_uuid}`, 'success');
+        showToast(`Request submitted. Ticket ID: ${data.ticket_uuid}`, 'success');
         grievanceForm.reset();
         grievanceForm.classList.remove('was-validated');
         resetDropzone();
@@ -282,11 +282,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         loadFacilities();
       } else {
-        showToast(data.message || 'Failed to submit grievance.', 'danger');
+        showToast(data.message || 'Could not submit request.', 'danger');
       }
     } catch (err) {
-      console.error('Error lodging ticket:', err);
-      showToast('Network error while lodging ticket.', 'danger');
+      console.error('Error submitting ticket:', err);
+      showToast('Network error submitting request.', 'danger');
     }
   });
 
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   async function trackTicket(uuid) {
     if (!uuid || uuid.trim().length === 0) {
-      showToast('Please enter a ticket UUID to track.', 'warning');
+      showToast('Please enter a ticket ID.', 'warning');
       return;
     }
 
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('resTitle').textContent = ticket.title;
         document.getElementById('resUuid').textContent = ticket.ticket_uuid;
-        document.getElementById('resLocation').textContent = `${ticket.building_name} — ${ticket.room_number}`;
+        document.getElementById('resLocation').textContent = `${ticket.building_name}, ${ticket.room_number}`;
         document.getElementById('resCategory').textContent = ticket.category.toUpperCase();
         document.getElementById('resDescription').textContent = ticket.description;
         document.getElementById('resDate').textContent = new Date(ticket.created_at).toLocaleString();
@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
             timeline.appendChild(item);
           });
         } else {
-          timeline.innerHTML = '<p class="text-muted small">No audit logs available for this ticket.</p>';
+          timeline.innerHTML = '<p class="text-muted small">No history logged yet.</p>';
         }
 
       } else {
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (err) {
       console.error('Error tracking ticket:', err);
-      showToast('Failed to retrieve ticket information.', 'danger');
+      showToast('Could not load ticket details.', 'danger');
     }
   }
 

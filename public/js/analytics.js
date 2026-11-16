@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ctx.font = '500 11px system-ui';
       ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
-      ctx.fillText('INCIDENTS', width / 2, top + (height / 2) + 12);
+      ctx.fillText('TICKETS', width / 2, top + (height / 2) + 12);
       ctx.restore();
     }
   };
@@ -397,10 +397,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inspBuildingName.textContent = buildingName;
     if (totalOpen > 0) {
-      inspStatusBadge.textContent = `${totalOpen} Active Fault${totalOpen > 1 ? 's' : ''}`;
+      inspStatusBadge.textContent = `${totalOpen} Open Issue${totalOpen > 1 ? 's' : ''}`;
       inspStatusBadge.className = totalOpen > 2 ? 'badge bg-danger' : 'badge bg-warning text-dark';
     } else {
-      inspStatusBadge.textContent = 'All Systems Operational';
+      inspStatusBadge.textContent = 'Operational';
       inspStatusBadge.className = 'badge bg-success';
     }
 
@@ -410,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ).join(' &bull; ');
       inspDetails.innerHTML = roomDetails;
     } else {
-      inspDetails.textContent = 'Zero reported maintenance issues in this facility block.';
+      inspDetails.textContent = 'No open issues reported for this building.';
     }
   }
 

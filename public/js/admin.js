@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td><small class="text-muted">${new Date(t.created_at).toLocaleDateString()}</small></td>
         <td class="text-end">
           <button class="btn btn-outline-primary btn-sm py-1 px-2 btn-triage" data-uuid="${t.ticket_uuid}">
-            <i class="bi bi-pencil-square me-1"></i> Triage
+            <i class="bi bi-pencil-square me-1"></i> Update
           </button>
         </td>
       `;
@@ -288,16 +288,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     selectedUuids.clear();
-    showToast(`Bulk updated ${successCount} of ${count} tickets to ${newStatus}.`, 'success');
+    showToast(`Updated ${successCount} of ${count} tickets to ${newStatus.replace('_', ' ')}.`, 'success');
     fetchTickets();
   }
 
   bulkInProgressBtn.addEventListener('click', () => {
-    executeBulkStatusUpdate('in_progress', 'Bulk dispatched by facility supervisor.');
+    executeBulkStatusUpdate('in_progress', 'Assigned for repair by estate office.');
   });
 
   bulkResolvedBtn.addEventListener('click', () => {
-    executeBulkStatusUpdate('resolved', 'Bulk verified and resolved by facility team.');
+    executeBulkStatusUpdate('resolved', 'Repair completed and verified.');
   });
 
   // ==========================================

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CampusPulse — Executive BI & Analytics Dashboard</title>
+  <title>CampusPulse: Maintenance Analytics</title>
   <!-- Bootstrap 5.3 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -28,13 +28,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-lg-center">
           <li class="nav-item">
-            <a class="nav-link" href="/index.html"><i class="bi bi-pencil-square me-1"></i> Student Portal</a>
+            <a class="nav-link" href="/index.html"><i class="bi bi-pencil-square me-1"></i> Report an Issue</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/admin.html"><i class="bi bi-kanban me-1"></i> Operations Board</a>
+            <a class="nav-link" href="/admin.html"><i class="bi bi-kanban me-1"></i> Work Orders</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/analytics.html"><i class="bi bi-graph-up-arrow me-1"></i> Executive BI Dashboard</a>
+            <a class="nav-link active" href="/analytics.html"><i class="bi bi-graph-up-arrow me-1"></i> Analytics</a>
           </li>
           <li class="nav-item ms-lg-2">
             <button class="btn btn-sm btn-outline-light d-flex align-items-center gap-1" id="themeToggleBtn" type="button" title="Toggle Dark/Light Mode">
@@ -44,7 +44,7 @@
           </li>
           <li class="nav-item ms-lg-2">
             <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1">
-              <i class="bi bi-pie-chart-fill me-1"></i> Module 1: BI
+              <i class="bi bi-bar-chart-fill me-1"></i> Reports
             </span>
           </li>
         </ul>
@@ -52,29 +52,29 @@
     </div>
   </nav>
 
-  <!-- Header with Time Slicer (Phase 3) -->
+  <!-- Header with Time Slicer -->
   <section class="py-4 border-bottom bg-body-tertiary">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div>
-          <h1 class="h3 fw-bold mb-1">Executive Facility & Resource Intelligence</h1>
-          <p class="text-muted mb-0">Live aggregated metrics, SLA compliance rates, and geospatial incident distribution across campus.</p>
+          <h1 class="h3 fw-bold mb-1">Maintenance Reports & Analytics</h1>
+          <p class="text-muted mb-0">Repair turnaround times, open work orders, and building issues across campus.</p>
         </div>
         <div class="d-flex flex-wrap align-items-center gap-2">
           <!-- Segmented Timeframe Filter -->
           <div class="btn-group btn-group-sm" role="group" id="timeframeFilter">
             <input type="radio" class="btn-check" name="btnTimeframe" id="timeframeAll" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="timeframeAll">All Time</label>
+            <label class="btn btn-outline-primary" for="timeframeAll">All time</label>
 
             <input type="radio" class="btn-check" name="btnTimeframe" id="timeframe30" autocomplete="off">
-            <label class="btn btn-outline-primary" for="timeframe30">30 Days</label>
+            <label class="btn btn-outline-primary" for="timeframe30">Past 30 days</label>
 
             <input type="radio" class="btn-check" name="btnTimeframe" id="timeframe7" autocomplete="off">
-            <label class="btn btn-outline-primary" for="timeframe7">7 Days</label>
+            <label class="btn btn-outline-primary" for="timeframe7">Past 7 days</label>
           </div>
 
           <button class="btn btn-outline-secondary btn-sm" id="btnExportData">
-            <i class="bi bi-cloud-arrow-down me-1"></i> Export CSV / Tableau
+            <i class="bi bi-cloud-arrow-down me-1"></i> Export CSV
           </button>
           <button class="btn btn-primary btn-sm" id="btnRefreshAnalytics">
             <i class="bi bi-arrow-clockwise me-1"></i> Refresh
@@ -95,12 +95,12 @@
           <div class="custom-card kpi-card">
             <div class="d-flex justify-content-between align-items-start">
               <div>
-                <div class="kpi-title">Total Incidents</div>
+                <div class="kpi-title">Total Requests</div>
                 <div class="kpi-value" id="kpiTotal">0</div>
               </div>
               <i class="bi bi-inbox text-primary fs-3"></i>
             </div>
-            <small class="text-muted"><span id="kpiResolved" class="fw-bold text-success">0</span> resolved to date</small>
+            <small class="text-muted"><span id="kpiResolved" class="fw-bold text-success">0</span> resolved</small>
           </div>
         </div>
 
@@ -108,12 +108,12 @@
           <div class="custom-card kpi-card kpi-warning">
             <div class="d-flex justify-content-between align-items-start">
               <div>
-                <div class="kpi-title">Active / Open Queue</div>
+                <div class="kpi-title">Open Requests</div>
                 <div class="kpi-value text-warning" id="kpiActive">0</div>
               </div>
               <i class="bi bi-hourglass-split text-warning fs-3"></i>
             </div>
-            <small class="text-muted"><span id="kpiCritical" class="fw-bold text-danger">0</span> critical priority</small>
+            <small class="text-muted"><span id="kpiCritical" class="fw-bold text-danger">0</span> marked critical</small>
           </div>
         </div>
 
@@ -121,12 +121,12 @@
           <div class="custom-card kpi-card kpi-success">
             <div class="d-flex justify-content-between align-items-start">
               <div>
-                <div class="kpi-title">Mean Resolution Time (MTTR)</div>
+                <div class="kpi-title">Average Repair Time</div>
                 <div class="kpi-value text-success"><span id="kpiMttr">0.0</span><small class="fs-6 fw-normal text-muted"> hrs</small></div>
               </div>
               <i class="bi bi-speedometer2 text-success fs-3"></i>
             </div>
-            <small class="text-muted">Target SLA: &lt; 48.0 hrs</small>
+            <small class="text-muted">Target: under 48 hours</small>
           </div>
         </div>
 
@@ -134,7 +134,7 @@
           <div class="custom-card kpi-card">
             <div class="d-flex justify-content-between align-items-start">
               <div>
-                <div class="kpi-title">SLA Compliance Rate</div>
+                <div class="kpi-title">On-Time Rate</div>
                 <div class="kpi-value text-primary"><span id="kpiSla">0</span>%</div>
               </div>
               <i class="bi bi-award text-primary fs-3"></i>
@@ -154,8 +154,8 @@
         <div class="col-lg-5">
           <div class="custom-card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h2 class="h6 fw-bold mb-0"><i class="bi bi-pie-chart text-primary me-2"></i>Incidents by Category</h2>
-              <span class="badge bg-secondary-subtle text-secondary border">Root Causes</span>
+              <h2 class="h6 fw-bold mb-0"><i class="bi bi-pie-chart text-primary me-2"></i>Issues by Category</h2>
+              <span class="badge bg-secondary-subtle text-secondary border">Categories</span>
             </div>
             <div style="position: relative; height: 280px;">
               <canvas id="categoryChart"></canvas>
@@ -167,8 +167,8 @@
         <div class="col-lg-7">
           <div class="custom-card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h2 class="h6 fw-bold mb-0"><i class="bi bi-graph-up text-primary me-2"></i>Incident Velocity & Resolution Velocity</h2>
-              <span class="badge bg-secondary-subtle text-secondary border">Velocity Trend</span>
+              <h2 class="h6 fw-bold mb-0"><i class="bi bi-graph-up text-primary me-2"></i>Daily Ticket Activity</h2>
+              <span class="badge bg-secondary-subtle text-secondary border">Activity Trend</span>
             </div>
             <div style="position: relative; height: 280px;">
               <canvas id="trendChart"></canvas>
@@ -178,15 +178,15 @@
 
       </div>
 
-      <!-- Row 3: Building Comparison & Interactive 2D SVG Campus Blueprint (Phase 3) -->
+      <!-- Row 3: Building Comparison & Interactive 2D SVG Campus Blueprint -->
       <div class="row g-4">
         
         <!-- Department / Building Bar Chart -->
         <div class="col-lg-5">
           <div class="custom-card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h2 class="h6 fw-bold mb-0"><i class="bi bi-bar-chart text-primary me-2"></i>Building Maintenance Volume</h2>
-              <span class="badge bg-secondary-subtle text-secondary border">Facilities</span>
+              <h2 class="h6 fw-bold mb-0"><i class="bi bi-bar-chart text-primary me-2"></i>Requests by Building</h2>
+              <span class="badge bg-secondary-subtle text-secondary border">Buildings</span>
             </div>
             <div style="position: relative; height: 320px;">
               <canvas id="buildingChart"></canvas>
@@ -194,14 +194,14 @@
           </div>
         </div>
 
-        <!-- Interactive 2D SVG Campus Map Layout (Phase 3) -->
+        <!-- Interactive 2D SVG Campus Map Layout -->
         <div class="col-lg-7">
           <div class="custom-card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-2">
-              <h2 class="h6 fw-bold mb-0"><i class="bi bi-geo-alt-fill text-danger me-2"></i>Interactive 2D Campus Blueprint</h2>
-              <span class="badge bg-danger-subtle text-danger">Live Hotspot Pins</span>
+              <h2 class="h6 fw-bold mb-0"><i class="bi bi-geo-alt-fill text-danger me-2"></i>Campus Map & Building Status</h2>
+              <span class="badge bg-danger-subtle text-danger">Active Issues</span>
             </div>
-            <p class="small text-muted mb-3">Click on any campus building zone to inspect active faults, floor breakdown, and facility rooms.</p>
+            <p class="small text-muted mb-3">Click any building on the map to view its open repair tickets and room breakdown.</p>
             
             <div class="campus-svg-container p-3 mb-3">
               <!-- SVG Campus Blueprint Vector Layout -->
@@ -214,8 +214,8 @@
                 <g class="building-group" data-bname="CSD Department Block">
                   <rect x="50" y="40" width="130" height="85" rx="8" class="map-building-path"/>
                   <text x="115" y="75" font-size="12" font-weight="bold" fill="currentColor" text-anchor="middle">CSD Block</text>
-                  <text x="115" y="95" font-size="9" fill="#64748b" text-anchor="middle">Labs & Smart Class</text>
-                  <!-- Pulsating Hotspot Pin -->
+                  <text x="115" y="95" font-size="9" fill="#64748b" text-anchor="middle">Labs & Classrooms</text>
+                  <!-- Hotspot Pin -->
                   <circle cx="165" cy="55" r="8" fill="#ef4444" class="pulse-ring"/>
                   <circle cx="165" cy="55" r="7" fill="#ef4444" class="pin-marker"/>
                   <text x="165" y="58" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle" id="pin-csd">2</text>
@@ -234,7 +234,7 @@
                 <g class="building-group" data-bname="Library Building">
                   <rect x="420" y="40" width="130" height="85" rx="8" class="map-building-path"/>
                   <text x="485" y="75" font-size="12" font-weight="bold" fill="currentColor" text-anchor="middle">Central Library</text>
-                  <text x="485" y="95" font-size="9" fill="#64748b" text-anchor="middle">Digital Resource</text>
+                  <text x="485" y="95" font-size="9" fill="#64748b" text-anchor="middle">Reading Rooms</text>
                   <circle cx="535" cy="55" r="7" fill="#10b981" class="pin-marker"/>
                   <text x="535" y="58" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle" id="pin-lib">0</text>
                 </g>
@@ -243,7 +243,7 @@
                 <g class="building-group" data-bname="Boys Hostel Block A">
                   <rect x="50" y="195" width="130" height="85" rx="8" class="map-building-path"/>
                   <text x="115" y="230" font-size="12" font-weight="bold" fill="currentColor" text-anchor="middle">Hostels A & B</text>
-                  <text x="115" y="250" font-size="9" fill="#64748b" text-anchor="middle">Residences & Common</text>
+                  <text x="115" y="250" font-size="9" fill="#64748b" text-anchor="middle">Dormitories</text>
                   <circle cx="165" cy="210" r="7" fill="#10b981" class="pin-marker"/>
                   <text x="165" y="213" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle" id="pin-hostel">0</text>
                 </g>
@@ -252,8 +252,8 @@
                 <g class="building-group" data-bname="Indoor Sports Complex">
                   <rect x="230" y="195" width="140" height="85" rx="8" class="map-building-path"/>
                   <text x="300" y="230" font-size="12" font-weight="bold" fill="currentColor" text-anchor="middle">Sports Complex</text>
-                  <text x="300" y="250" font-size="9" fill="#64748b" text-anchor="middle">Courts & Gymnasium</text>
-                  <!-- Pulsating Hotspot Pin -->
+                  <text x="300" y="250" font-size="9" fill="#64748b" text-anchor="middle">Courts & Gym</text>
+                  <!-- Hotspot Pin -->
                   <circle cx="355" cy="210" r="8" fill="#f59e0b" class="pulse-ring"/>
                   <circle cx="355" cy="210" r="7" fill="#f59e0b" class="pin-marker"/>
                   <text x="355" y="213" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle" id="pin-sports">1</text>
@@ -263,7 +263,7 @@
                 <g class="building-group" data-bname="Central Cafeteria">
                   <rect x="420" y="195" width="130" height="85" rx="8" class="map-building-path"/>
                   <text x="485" y="230" font-size="12" font-weight="bold" fill="currentColor" text-anchor="middle">Cafeteria</text>
-                  <text x="485" y="250" font-size="9" fill="#64748b" text-anchor="middle">Dining Halls</text>
+                  <text x="485" y="250" font-size="9" fill="#64748b" text-anchor="middle">Dining Area</text>
                   <circle cx="535" cy="210" r="7" fill="#10b981" class="pin-marker"/>
                   <text x="535" y="213" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle" id="pin-cafe">0</text>
                 </g>
@@ -276,7 +276,7 @@
                 <strong id="inspBuildingName" class="fs-6 text-primary">CSD Department Block</strong>
                 <span id="inspStatusBadge" class="badge bg-warning text-dark">Active Maintenance</span>
               </div>
-              <p id="inspDetails" class="text-muted mb-0">Select any zone on the blueprint to view room details, fault severity, and maintenance status.</p>
+              <p id="inspDetails" class="text-muted mb-0">Click any building to inspect room status and repair tickets.</p>
             </div>
 
           </div>
@@ -290,7 +290,7 @@
   <!-- Footer -->
   <footer>
     <div class="container text-center text-muted">
-      <p class="mb-0 small">CampusPulse Module 1 BI Engine — Connected live to SQLite 3 on-disk analytical views.</p>
+      <p class="mb-0 small">CampusPulse: Department of Computer Science & Design</p>
     </div>
   </footer>
 
